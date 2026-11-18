@@ -163,35 +163,90 @@
   </div>
 </div>
 
-<!-- ===== МВ ===== -->
+<!-- ===== МВ (по экрану mobile 1:4326 из Figma) ===== -->
 <div class="mv" id="mv">
   <div class="phone" id="phone">
-    <div class="m-head">
-      <img src="assets/close.svg" alt="" width="20" height="20">
-      <b>Новый пост</b>
-      <span class="m-head__next">Далее</span>
-    </div>
-    <div class="m-body">
-      <div class="m-card">
-        <h1 class="editor__title m-title" contenteditable="true" spellcheck="false">Как я "починил" старый велосипед</h1>
-        <div class="editor__p" contenteditable="true" spellcheck="false">Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей.</div>
-      </div>
+    <div class="m-scroll" id="mScroll">
+      <header class="m-head">
+        <div class="m-head__left">
+          <span class="m-head__menu"><img src="assets/menu.svg" alt="" width="32" height="32"></span>
+          <img src="assets/logo-pikabu.svg" alt="" width="32" height="32">
+          <b>Новый пост</b>
+        </div>
+        <div class="m-head__right">
+          <span class="hbtn"><img src="assets/plus.svg" alt=""></span>
+          <span class="hbtn"><img src="assets/bell.svg" alt=""></span>
+          <img class="avatar" src="assets/avatar.png" alt="">
+        </div>
+      </header>
+
+      <section class="m-editor">
+        <div class="m-tools">
+          <div class="m-tools__row">
+            <div class="toolbar__group">
+              <button class="bi"><img src="assets/heading-m.svg" alt=""></button>
+              <button class="bi"><img src="assets/bold.svg" alt=""></button>
+              <button class="bi"><img src="assets/italic.svg" alt=""></button>
+              <button class="bi"><img src="assets/underline.svg" alt=""></button>
+              <button class="bi"><img src="assets/strike.svg" alt=""></button>
+              <button class="bi"><img src="assets/link.svg" alt=""></button>
+              <button class="bi"><img src="assets/quote.svg" alt=""></button>
+            </div>
+            <span class="m-more-wrap">
+              <button class="bi m-more" id="more" type="button" aria-label="Ещё"><img src="assets/more.svg" alt=""></button>
+              <i class="counter m-more__badge" aria-hidden="true">NEW</i>
+            </span>
+          </div>
+        </div>
+        <div class="m-editor__body">
+          <div class="m-editor__text">
+            <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок">Как я "починил" старый велосипед</h1>
+            <div class="editor__p m-p" contenteditable="true" spellcheck="false" data-ph="Текст нового поста...">Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей.</div>
+          </div>
+          <span class="m-plus"><img src="assets/plus-s.svg" alt="" width="16" height="16"></span>
+          <div class="special">
+            <span class="switch"><i></i></span>
+            <span class="special__t">Спецоформление</span>
+            <img src="assets/hint.svg" alt="" width="16" height="16">
+          </div>
+        </div>
+      </section>
+
+      <section class="m-block">
+        <label class="lbl">Теги к посту</label>
+        <div class="combo">Добавьте от 2 до 20 тегов</div>
+      </section>
+      <section class="m-block">
+        <div class="alert">
+          <img class="alert__ill" src="assets/illustration.svg" alt="">
+          <p>Посты в сообществах реже получают минусы. Целых 93% из них имеют больше плюсов, чем минусов, и увереннее получают отклик сразу после публикации.</p>
+          <button class="alert__x" type="button" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
+        </div>
+        <label class="lbl">Сообщество (не обязательно)</label>
+        <div class="combo">Введите название сообщества</div>
+      </section>
+      <section class="m-block block--checks">
+        <label class="chk"><i></i>Пикабуст <span class="pikabust">3 <img src="assets/rocket.svg" alt=""></span><img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Авторский контент<img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Моё<img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Пост содержит 18+ контент<img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Отключить донаты за пост<img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Опубликовать анонимно<img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Отложенная публикация<img src="assets/hint.svg" alt=""></label>
+        <label class="chk"><i></i>Опубликовать в серию</label>
+      </section>
+      <section class="m-block">
+        <div class="btns">
+          <button class="btn btn--primary is-disabled" type="button">Опубликовать пост</button>
+          <button class="btn btn--outline" type="button">Предпросмотр</button>
+        </div>
+        <div class="split is-disabled"><span>Сохранить черновик</span><i><img src="assets/bin.svg" alt=""></i></div>
+      </section>
     </div>
 
     <div class="m-snack" id="snack"><i class="counter">NEW</i><span>Типограф поправит кавычки и тире</span><button type="button" id="snackOpen">Открыть</button></div>
 
-    <div class="m-bar">
-      <button class="bi"><img src="assets/heading.svg" alt=""></button>
-      <button class="bi"><img src="assets/bold.svg" alt=""></button>
-      <button class="bi"><img src="assets/italic.svg" alt=""></button>
-      <button class="bi"><img src="assets/link.svg" alt=""></button>
-      <button class="bi"><img src="assets/list.svg" alt=""></button>
-      <button class="bi"><img src="assets/numlist.svg" alt=""></button>
-      <span class="m-bar__sp"></span>
-      <button class="m-more" id="more" type="button">Aa ···<i class="counter m-more__badge">NEW</i></button>
-    </div>
-
-    <!-- шторка форматирования -->
+    <!-- шторка «⋯» (popup platform=mv) -->
     <div class="sheet" id="sheet" aria-hidden="true">
       <div class="sheet__wrap">
         <div class="tip tip--sheet" id="sheetTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
@@ -216,7 +271,7 @@
       <div class="m-coach__ring"></div>
       <div class="coach coach--m">
         <div class="coach__head"><i class="counter">NEW</i><b>Типограф</b></div>
-        <p>Кавычки, тире и пробелы — как в книге. Ищите в меню «Aa ···».</p>
+        <p>Кавычки, тире и пробелы — как в книге. Нажмите «⋯» и выберите «Типограф».</p>
         <div class="coach__btns"><button class="btn btn--primary" id="mCoachOk" type="button">Понятно</button></div>
       </div>
     </div>

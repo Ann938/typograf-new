@@ -164,19 +164,31 @@ body.coach-open .coach:not(.coach--m) { display: flex; animation: pop 0.25s ease
 .tip__c .counter { margin-left: 6px; vertical-align: 1px; }
 .tip__c b { font-weight: 500; color: var(--ink); }
 
-/* ---------- МВ ---------- */
+/* ---------- МВ (экран mobile 1:4326) ---------- */
 .mv { display: none; justify-content: center; padding: 32px 16px 80px; }
-.phone { position: relative; width: 360px; height: 720px; border-radius: 32px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 10px #1f2021, 0 30px 60px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; }
-.m-head { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 16px; background: var(--clear); border-bottom: 1px solid var(--stroke); flex: none; }
-.m-head b { flex: 1; font-size: 16px; font-weight: 500; color: var(--ink); }
-.m-head__next { color: var(--green-dark); font-weight: 500; font-size: 15px; }
-.m-body { flex: 1; overflow: auto; padding: 8px; }
-.m-card { background: var(--clear); border: 1px solid var(--stroke); border-radius: var(--r-outer); padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 100%; }
-.m-title { font-size: 20px; line-height: 28px; }
-.m-bar { flex: none; display: flex; align-items: center; gap: 2px; padding: 8px 12px; background: var(--clear); border-top: 1px solid var(--stroke); }
-.m-bar__sp { flex: 1; }
-.m-more { position: relative; height: 32px; padding: 0 12px; border-radius: 8px; background: var(--stroke); font-weight: 600; font-size: 13px; color: var(--label); }
-.m-more__badge { position: absolute; right: -6px; top: -10px; padding: 1px 5px; font-size: 10px; line-height: 14px; box-shadow: 0 0 0 2px var(--clear); opacity: 0; transform: scale(0.6); transition: opacity 0.25s, transform 0.25s; }
+.phone { position: relative; width: 360px; height: 720px; border-radius: 32px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 10px #1f2021, 0 30px 60px rgba(0, 0, 0, 0.25); }
+.m-scroll { height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; scrollbar-width: none; }
+.m-scroll::-webkit-scrollbar { display: none; }
+.m-head { position: sticky; top: 0; z-index: 4; flex: none; display: flex; align-items: center; gap: 16px; padding: 8px 16px; background: var(--clear); border-bottom: 1px solid var(--stroke); box-shadow: 0 0 0.5px rgba(41, 42, 46, 0.12), 0 4px 8px rgba(41, 42, 46, 0.08); }
+.m-head__left { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
+.m-head__menu { padding: 4px; }
+.m-head__left b { flex: 1; min-width: 0; font-size: 20px; line-height: 28px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-head__right { display: flex; align-items: center; gap: 8px; }
+.m-editor { flex: none; background: var(--clear); }
+.m-tools { padding: 8px 16px 0; }
+.m-tools__row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--stroke); }
+.m-more-wrap { position: relative; display: flex; }
+.m-editor__body { padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid var(--stroke); }
+.m-editor__text { display: flex; flex-direction: column; gap: 12px; padding-bottom: 24px; }
+.m-p { font-size: 16px; line-height: 24px; }
+.m-plus { align-self: flex-start; display: flex; padding: 8px; border-radius: 16px; background: var(--green); }
+.m-block { flex: none; background: var(--clear); border-top: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.m-block .lbl { margin-bottom: -4px; }
+.m-block.block--checks { gap: 8px; }
+/* бейдж NEW на «⋯» */
+.m-more__badge { position: absolute; right: -10px; top: -8px; padding: 1px 5px; font-size: 10px; line-height: 14px; box-shadow: 0 0 0 2px var(--clear); pointer-events: none; opacity: 0; transform: scale(0.6); transition: opacity 0.25s, transform 0.25s; }
+body.is-new.more-new[data-v="mv3"] .m-more,
+body.is-new.more-new[data-v="mv4"] .m-more { background: var(--tint); }
 body.is-new.more-new[data-v="mv3"] .m-more__badge,
 body.is-new.more-new[data-v="mv4"] .m-more__badge { opacity: 1; transform: scale(1); }
 
@@ -204,7 +216,7 @@ body.is-new.item-new[data-v="mv5"] .nav-item__right { display: inline-flex; }
 .tip--sheet { z-index: 2; }
 
 /* МВ-5: снекбар */
-.m-snack { position: absolute; left: 12px; right: 12px; bottom: 64px; z-index: 5; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #2b2c30; color: #fcfdff; font-size: 14px; line-height: 20px; transform: translateY(16px); opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; }
+.m-snack { position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #2b2c30; color: #fcfdff; font-size: 14px; line-height: 20px; transform: translateY(16px); opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; }
 .m-snack span { flex: 1; }
 .m-snack button { color: var(--green); font-weight: 500; }
 .m-snack.is-on { opacity: 1; transform: none; pointer-events: auto; }
@@ -213,8 +225,8 @@ body.is-new.item-new[data-v="mv5"] .nav-item__right { display: inline-flex; }
 .m-coach { position: absolute; inset: 0; z-index: 20; background: var(--overlay); display: none; }
 .m-coach.is-on { display: block; animation: pop 0.25s ease-out; }
 .m-coach__ring { position: absolute; width: 84px; height: 84px; border-radius: 50%; background: rgba(137, 204, 82, 0.3); animation: pulse 1.6s ease-out infinite; }
-.coach--m { display: flex; position: absolute; right: 16px; width: 290px; }
-.coach--m::before { top: auto; bottom: -6px; }
+.coach--m { display: flex; position: absolute; right: 16px; width: 294px; }
+.coach--m::before { top: -6px; }
 .m-hole { position: absolute; z-index: 21; pointer-events: none; }
 
 /* Тост результата */
@@ -250,8 +262,9 @@ body[data-v^="mv"] .mv { display: flex; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* МВ-4: кнопка «Aa ···» поверх затемнения */
-.phone.coach-on .m-more { z-index: 30; background: var(--clear); box-shadow: 0 0 0 2px var(--green); }
+/* МВ-4: кнопка «⋯» поверх затемнения */
+.phone.coach-on .m-more-wrap { z-index: 30; }
+.phone.coach-on .m-more { background: var(--clear); box-shadow: 0 0 0 2px var(--green); }
 @media (max-width: 640px) and (max-height: 720px) {
   .nav-item { padding-block: 5px; }
   .sheet { padding-block: 16px; }

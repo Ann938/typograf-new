@@ -12,11 +12,11 @@
     dv4: "<b>ДВ-4 · Кнопка с подписью.</b> На время запуска палочка — это кнопка «Типограф NEW». После первого нажатия сворачивается обратно в иконку.",
     dv5: "<b>ДВ-5 · Онбординг-подсказка (рекомендую вместе с ДВ-1).</b> Один раз: пульс вокруг кнопки и карточка. «Понятно» закрывает подсказку, бейдж остаётся до первого нажатия.",
     dv6: "<b>ДВ-6 · Анонс-строка под тулбаром.</b> «Попробовать» сразу применяет Типограф, крестик прячет строку навсегда.",
-    mv1: "<b>МВ-1 · Как в макете.</b> Нажмите «Aa ···»: в шторке пункт «Типограф» подсвечен, NEW справа, при первом открытии — тултип. Нажмите на пункт — текст поправится.",
+    mv1: "<b>МВ-1 · Как в макете.</b> Нажмите «⋯» в тулбаре: в шторке пункт «Типограф» подсвечен, NEW справа, при первом открытии — тултип. Нажмите на пункт — текст поправится.",
     mv2: "<b>МВ-2 · NEW сразу после названия.</b> То же, что МВ-1, но плашка стоит вплотную к слову «Типограф».",
-    mv3: "<b>МВ-3 · Бейдж на кнопке «Aa ···» (рекомендую).</b> Без него пункт с NEW не увидят, пока сами не откроют шторку. Бейдж на кнопке пропадает после первого открытия, NEW в пункте — после первого использования.",
-    mv4: "<b>МВ-4 · Онбординг при первом открытии.</b> Затемнение, пульс вокруг «Aa ···» и карточка. Один раз.",
-    mv5: "<b>МВ-5 · Снекбар над тулбаром.</b> Появляется через секунду и сам исчезает через 6 с. «Открыть» открывает шторку.",
+    mv3: "<b>МВ-3 · Бейдж NEW на «⋯» (рекомендую).</b> Без него пункт с NEW не увидят, пока сами не откроют шторку. Бейдж на кнопке пропадает после первого открытия, NEW в пункте — после первого использования.",
+    mv4: "<b>МВ-4 · Онбординг при первом открытии.</b> Затемнение, пульс вокруг «⋯» и карточка под ней. Один раз.",
+    mv5: "<b>МВ-5 · Снекбар внизу экрана.</b> Появляется через секунду и сам исчезает через 6 с. «Открыть» открывает шторку «⋯».",
   };
 
   // ---------- хранилище ----------
@@ -135,16 +135,17 @@
   $("#sheetClose").addEventListener("click", closeSheet);
   sheet.addEventListener("click", (e) => { if (e.target === sheet) closeSheet(); });
   sheetTip.addEventListener("click", () => sheetTip.classList.remove("is-on"));
-  $("#mTypo").addEventListener("click", () => { closeSheet(); runTypograf($(".m-body")); });
+  $("#mTypo").addEventListener("click", () => { closeSheet(); runTypograf($(".m-editor")); });
   $("#snackOpen").addEventListener("click", openSheet);
   $("#mCoachOk").addEventListener("click", closeCoach);
 
   function placeMCoach() {
     const ring = $(".m-coach__ring"), card = $(".coach--m");
-    const cx = more.offsetLeft + more.offsetWidth / 2, cy = more.offsetTop + more.offsetHeight / 2;
-    ring.style.left = cx - 42 + "px"; ring.style.top = cy - 42 + "px";
-    card.style.bottom = phone.offsetHeight - more.offsetTop + 22 + "px";
-    card.style.setProperty("--arrow", Math.max(12, phone.offsetWidth - 16 - cx - 6) + "px");
+    const pr = phone.getBoundingClientRect(), r = more.getBoundingClientRect();
+    const cx = r.left - pr.left + r.width / 2, cy = r.top - pr.top + r.height / 2;
+    ring.style.left = cx - 30 + "px"; ring.style.top = cy - 30 + "px";
+    card.style.top = r.bottom - pr.top + 14 + "px";
+    card.style.setProperty("--arrow", Math.max(12, pr.width - 16 - cx - 6) + "px");
   }
 
   // ---------- рендер состояния ----------
