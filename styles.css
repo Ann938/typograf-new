@@ -317,8 +317,11 @@ body.show-announce.is-new.more-new[data-v="mvB"] .m-editor > .arrowB { display: 
 /* меню МВ: «Типограф» последним, без подсветки строки; подсказка у строки */
 body.is-new.item-new[data-v="mvA"] .nav-item--typo,
 body.is-new.item-new[data-v="mvB"] .nav-item--typo { background: none; }
-body.is-new.item-new[data-v="mvA"] .nav-item__right,
-body.is-new.item-new[data-v="mvB"] .nav-item__right { display: inline-flex; }
+/* по макету: «Новое» сразу после названия, справа «?» — по тапу на него подсказка */
+body.is-new.item-new[data-v="mvA"] .nav-item__inline,
+body.is-new.item-new[data-v="mvB"] .nav-item__inline { display: inline-flex; }
+body.is-new.item-new[data-v="mvA"] .nav-item__q,
+body.is-new.item-new[data-v="mvB"] .nav-item__q { display: grid; }
 .sheet__box { position: relative; }
 .tip--row { position: absolute; right: 16px; width: 220px; z-index: 2; display: none; flex-direction: column; align-items: flex-end; pointer-events: auto; }
 .tip--row.is-on { display: flex; opacity: 1; }
@@ -353,3 +356,11 @@ body.is-new[data-v="dvA"] .typo__badge { pointer-events: auto; cursor: pointer; 
   .demo__row { flex-wrap: wrap; overflow: visible; }
   .sw { width: calc(100% - 46px); }
 }
+
+.nav-item__q { display: none; place-items: center; width: 24px; height: 24px; margin-right: -2px; border-radius: 50%; cursor: pointer; }
+.nav-item__q img { width: 20px; height: 20px; }
+.nav-item__q:active { background: var(--stroke); }
+.tip--row .tip__arrow { margin-right: 0; }
+/* закрытая шторка не должна ловить нажатия (подсказки внутри неё были pointer-events: auto) */
+.sheet:not(.is-open) * { pointer-events: none !important; }
+body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !important; }
