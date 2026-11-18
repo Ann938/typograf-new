@@ -365,3 +365,8 @@ body.is-new[data-v="dvA"] .typo__badge { pointer-events: auto; cursor: pointer; 
 /* закрытая шторка не должна ловить нажатия (подсказки внутри неё были pointer-events: auto) */
 .sheet:not(.is-open) * { pointer-events: none !important; }
 body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !important; }
+/* МВ: после первого открытия «⋯» точка перестаёт мигать, но остаётся до использования Типографа */
+body.is-new:not(.more-new)[data-v="mvA"] .m-dot,
+body.is-new:not(.more-new)[data-v="mvB"] .m-dot { animation: none; opacity: 1; }
+body.is-new:not(.more-new)[data-v="mvA"] .m-dot::after,
+body.is-new:not(.more-new)[data-v="mvB"] .m-dot::after { animation: none; opacity: 0; }
