@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="cakeLogo">
+<path id="Vector" d="M0.598057 8.01797C2.31423 11.9316 10.7568 17.2181 14.4302 18.2989C16.6124 18.9409 18.7074 19.2772 20.4263 19.1363C20.2403 19.3043 20.034 19.4902 19.8125 19.6857C18.8404 20.5179 17.5904 21.5932 16.6876 22.2172C15.9238 22.7719 14.8126 23.3269 13.5626 23.6737C12.7981 23.8879 11.5948 24.0509 10.6452 23.9853C8.56181 23.8466 5.71457 22.9795 3.17982 20.8648C2.43623 20.2513 1.65886 19.4465 1.33919 18.9584C0.366952 17.5369 0.124267 16.0804 0.0199738 14.1737C-0.106562 11.9618 0.401826 9.08759 0.598057 8.01797Z" fill="url(#paint0_radial_0_416)"/>
+<path id="Vector_2" d="M12.3126 0.68648C12.3126 0.68648 7.69429 -0.735036 4.32599 0.513124C0.95774 1.76128 -0.570129 3.39079 0.367424 7.34329C1.30499 11.2958 10.5416 17.1552 14.4308 18.2993C18.32 19.4436 21.9313 19.6168 23.6328 17.8488C25.3342 16.0804 26.3064 11.3999 21.2021 6.09513C16.0976 0.790489 12.3126 0.68648 12.3126 0.68648Z" fill="url(#paint1_radial_0_416)"/>
+<path id="Vector_3" d="M10.2637 2.87078C10.2637 2.87078 9.98597 1.69196 11.1319 0.825198C12.2778 -0.0415816 14.8127 -0.110921 17.4864 1.51861C20.1602 3.14817 21.0284 4.67364 21.202 6.09516C21.3756 7.51668 20.8547 8.62615 18.5281 8.6609C16.1669 8.69554 11.236 6.51124 10.2637 2.87078Z" fill="url(#paint2_radial_0_416)"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_416" cx="0" cy="0" r="1" gradientTransform="matrix(8.66861 5.82506 -4.04881 6.1418 10.6876 15.8459)" gradientUnits="userSpaceOnUse">
+<stop offset="0.37325" stop-color="#E27444"/>
+<stop offset="1" stop-color="#D15736"/>
+</radialGradient>
+<radialGradient id="paint1_radial_0_416" cx="0" cy="0" r="1" gradientTransform="matrix(-24.3512 -15.0336 -14.8868 24.5913 19.1973 10.4052)" gradientUnits="userSpaceOnUse">
+<stop offset="0.0670391" stop-color="#FFE491"/>
+<stop offset="0.576319" stop-color="#F19645"/>
+<stop offset="1" stop-color="#EE8635"/>
+</radialGradient>
+<radialGradient id="paint2_radial_0_416" cx="0" cy="0" r="1" gradientTransform="matrix(6.74626 1.57217 -1.52741 6.68404 18.2969 4.1925)" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EA754B"/>
+<stop offset="0.774038" stop-color="#D15736"/>
+</radialGradient>
+</defs>
+</svg>

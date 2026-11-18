@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Типограф · NEW — прототип</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Панель прототипа (не часть интерфейса Пикабу) -->
+<div class="demo">
+  <div class="demo__in">
+    <div class="demo__row">
+      <b class="demo__title">Типограф · NEW <span>прототип</span></b>
+      <div class="demo__group" role="tablist" aria-label="Десктоп">
+        <span class="demo__label">ДВ</span>
+        <button data-v="dv1">1</button><button data-v="dv2">2</button><button data-v="dv3">3</button><button data-v="dv4">4</button><button data-v="dv5">5</button><button data-v="dv6">6</button>
+      </div>
+      <div class="demo__group" role="tablist" aria-label="Мобильная версия">
+        <span class="demo__label">МВ</span>
+        <button data-v="mv1">1</button><button data-v="mv2">2</button><button data-v="mv3">3</button><button data-v="mv4">4</button><button data-v="mv5">5</button>
+      </div>
+      <button class="demo__reset" id="reset" type="button">↺ Показать NEW заново</button>
+    </div>
+    <p class="demo__desc" id="desc"></p>
+  </div>
+</div>
+
+<!-- ===== ДВ ===== -->
+<div class="dv" id="dv">
+  <div class="dv__zoom" id="dvZoom">
+    <header class="pk-header">
+      <div class="pk-header__in">
+        <a class="logo" href="#" aria-label="Пикабу"><img class="logo__cake" src="assets/logo-cake.svg" alt=""><img class="logo__text" src="assets/logo-text.svg" alt=""></a>
+        <nav class="pk-nav">
+          <a>Горячее</a><a>Лучшее</a><a>Свежее</a><a>Подписки <i class="counter counter--alert">9+</i></a><a>Сообщества</a><a>Блоги <i class="counter counter--alert">3</i></a><a>Темы</a>
+        </nav>
+        <div class="pk-header__right">
+          <span class="hbtn"><img src="assets/search.svg" alt=""></span>
+          <span class="hbtn"><img src="assets/plus.svg" alt=""></span>
+          <span class="hbtn"><img src="assets/bell.svg" alt=""></span>
+          <img class="avatar" src="assets/avatar.png" alt="">
+        </div>
+      </div>
+    </header>
+
+    <main class="pk-grid">
+      <div class="pk-col" id="dvCol">
+        <button class="editor-plus" type="button" aria-label="Добавить блок"><img src="assets/plus.svg" alt=""></button>
+
+        <section class="editor" id="editor">
+          <div class="toolbar">
+            <div class="toolbar__row" id="toolbar">
+              <div class="toolbar__group">
+                <button class="bi" data-tip="Заголовок"><img src="assets/heading.svg" alt=""></button>
+                <button class="bi" data-tip="Жирный"><img src="assets/bold.svg" alt=""></button>
+                <button class="bi" data-tip="Курсив"><img src="assets/italic.svg" alt=""></button>
+                <button class="bi" data-tip="Подчёркнутый"><img src="assets/underline.svg" alt=""></button>
+                <button class="bi" data-tip="Зачёркнутый"><img src="assets/strike.svg" alt=""></button>
+                <button class="bi" data-tip="Ссылка"><img src="assets/link.svg" alt=""></button>
+                <button class="bi" data-tip="Цитата"><img src="assets/quote.svg" alt=""></button>
+                <button class="bi" data-tip="Врезка"><img src="assets/inset.svg" alt=""></button>
+                <button class="bi" data-tip="Маркер"><img src="assets/marker.svg" alt=""></button>
+                <button class="bi" data-tip="Скрыть под спойлер"><img src="assets/eye-no.svg" alt=""></button>
+              </div>
+              <div class="toolbar__group">
+                <button class="bi" data-tip="Ненумерованный список"><img src="assets/list.svg" alt=""></button>
+                <button class="bi" data-tip="Нумерованный список"><img src="assets/numlist.svg" alt=""></button>
+                <button class="bi" data-tip="Изменить порядок блоков"><img src="assets/drag.svg" alt=""></button>
+                <button class="bi" data-tip="Выравнивание"><img src="assets/align-left.svg" alt=""></button>
+              </div>
+              <!-- Кнопка Типографа: вид зависит от варианта (класс на .dv) -->
+              <div class="typo" id="typo">
+                <button class="bi typo__btn" id="typoBtn" type="button" aria-label="Типограф">
+                  <img src="assets/wand.svg" alt="">
+                  <span class="typo__label">Типограф</span>
+                  <i class="counter typo__inline">NEW</i>
+                </button>
+                <i class="counter typo__badge" aria-hidden="true">NEW</i>
+                <i class="typo__dot" aria-hidden="true"></i>
+                <i class="typo__pulse" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ДВ-6: анонс-строка -->
+          <div class="announce" id="announce">
+            <i class="counter">NEW</i>
+            <span>Типограф поправит кавычки, тире и пробелы в один клик</span>
+            <button class="announce__try" type="button" id="announceTry">Попробовать</button>
+            <button class="announce__close" type="button" id="announceClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
+          </div>
+
+          <div class="editor__body">
+            <div class="editor__text">
+              <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок">Как я "починил" старый велосипед</h1>
+              <div class="editor__p" contenteditable="true" spellcheck="false" data-ph="Используйте Shift + Enter для перехода на новую строку без отступа">Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей , зато теперь катаюсь  каждый вечер.</div>
+            </div>
+            <div class="special">
+              <span class="switch"><i></i></span>
+              <span class="special__t">Спецоформление</span>
+              <img src="assets/hint.svg" alt="" width="16" height="16">
+            </div>
+          </div>
+        </section>
+
+        <section class="block">
+          <label class="lbl">Теги к посту</label>
+          <div class="combo">Добавьте от 2 до 20 тегов</div>
+        </section>
+
+        <section class="block">
+          <div class="alert">
+            <img class="alert__ill" src="assets/illustration.svg" alt="">
+            <p>Посты в сообществах реже получают минусы. Целых 93% из них имеют больше плюсов, чем минусов, и увереннее получают отклик сразу после публикации.</p>
+            <button class="alert__x" type="button" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
+          </div>
+          <label class="lbl">Сообщество (не обязательно)</label>
+          <div class="combo">Введите название сообщества</div>
+        </section>
+
+        <section class="block block--checks">
+          <label class="chk"><i></i>Пикабуст <span class="pikabust">3 <img src="assets/rocket.svg" alt=""></span><img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Авторский контент<img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Моё<img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Пост содержит 18+ контент<img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Отключить донаты за пост<img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Опубликовать анонимно<img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Отложенная публикация<img src="assets/hint.svg" alt=""></label>
+          <label class="chk"><i></i>Опубликовать в серию</label>
+        </section>
+
+        <!-- ДВ-5: онбординг-подсказка -->
+        <div class="coach" id="coach" role="dialog" aria-label="Новинка: Типограф">
+          <div class="coach__head"><i class="counter">NEW</i><b>Типограф</b></div>
+          <p>Исправит кавычки «ёлочки», длинные тире и пробелы за один клик. Выделите текст и нажмите на палочку.</p>
+          <div class="coach__btns">
+            <button class="btn btn--primary" id="coachTry" type="button">Попробовать</button>
+            <button class="btn btn--secondary" id="coachOk" type="button">Понятно</button>
+          </div>
+        </div>
+
+        <!-- Тултип при наведении (стиль tooltip из библиотеки) -->
+        <div class="tip" id="tip"><div class="tip__c"></div></div>
+      </div>
+
+      <aside class="pk-aside">
+        <div class="block block--btns">
+          <div class="btns">
+            <button class="btn btn--primary is-disabled" type="button">Опубликовать пост</button>
+            <button class="btn btn--outline" type="button">Предпросмотр</button>
+          </div>
+          <div class="split is-disabled"><span>Сохранить черновик</span><i><img src="assets/bin.svg" alt=""></i></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<!-- ===== МВ ===== -->
+<div class="mv" id="mv">
+  <div class="phone" id="phone">
+    <div class="m-head">
+      <img src="assets/close.svg" alt="" width="20" height="20">
+      <b>Новый пост</b>
+      <span class="m-head__next">Далее</span>
+    </div>
+    <div class="m-body">
+      <div class="m-card">
+        <h1 class="editor__title m-title" contenteditable="true" spellcheck="false">Как я "починил" старый велосипед</h1>
+        <div class="editor__p" contenteditable="true" spellcheck="false">Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей.</div>
+      </div>
+    </div>
+
+    <div class="m-snack" id="snack"><i class="counter">NEW</i><span>Типограф поправит кавычки и тире</span><button type="button" id="snackOpen">Открыть</button></div>
+
+    <div class="m-bar">
+      <button class="bi"><img src="assets/heading.svg" alt=""></button>
+      <button class="bi"><img src="assets/bold.svg" alt=""></button>
+      <button class="bi"><img src="assets/italic.svg" alt=""></button>
+      <button class="bi"><img src="assets/link.svg" alt=""></button>
+      <button class="bi"><img src="assets/list.svg" alt=""></button>
+      <button class="bi"><img src="assets/numlist.svg" alt=""></button>
+      <span class="m-bar__sp"></span>
+      <button class="m-more" id="more" type="button">Aa ···<i class="counter m-more__badge">NEW</i></button>
+    </div>
+
+    <!-- шторка форматирования -->
+    <div class="sheet" id="sheet" aria-hidden="true">
+      <div class="sheet__wrap">
+        <div class="tip tip--sheet" id="sheetTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
+        <div class="sheet__box">
+          <button class="nav-item nav-item--typo" id="mTypo" type="button"><img src="assets/m-wand.svg" alt=""><span class="nav-item__t">Типограф <i class="counter nav-item__inline">NEW</i></span><i class="counter nav-item__right">NEW</i></button>
+          <button class="nav-item" type="button"><img src="assets/m-inset.svg" alt=""><span class="nav-item__t">Врезка</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-marker.svg" alt=""><span class="nav-item__t">Маркер</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-eye-no.svg" alt=""><span class="nav-item__t">Скрыть под спойлер</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-list.svg" alt=""><span class="nav-item__t">Ненумерованный список</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-numlist.svg" alt=""><span class="nav-item__t">Нумерованный список</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-drag.svg" alt=""><span class="nav-item__t">Изменить порядок блоков</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-align-left.svg" alt=""><span class="nav-item__t">По левому краю</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-align-center.svg" alt=""><span class="nav-item__t">По центру</span></button>
+          <button class="nav-item" type="button"><img src="assets/m-align-right.svg" alt=""><span class="nav-item__t">По правому краю</span></button>
+          <div class="sheet__btn"><button class="btn btn--secondary btn--full" id="sheetClose" type="button">Закрыть</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- МВ-4: онбординг -->
+    <div class="m-coach" id="mCoach">
+      <div class="m-coach__ring"></div>
+      <div class="coach coach--m">
+        <div class="coach__head"><i class="counter">NEW</i><b>Типограф</b></div>
+        <p>Кавычки, тире и пробелы — как в книге. Ищите в меню «Aa ···».</p>
+        <div class="coach__btns"><button class="btn btn--primary" id="mCoachOk" type="button">Понятно</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
