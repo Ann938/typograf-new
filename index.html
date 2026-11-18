@@ -18,12 +18,14 @@
   <div class="demo__in">
     <div class="demo__row">
       <b class="demo__title">Типограф · NEW <span>прототип</span></b>
-      <!-- вариант целиком кликабельный: выбор варианта открывает ДВ, рядом — переключатель ДВ/МВ -->
-      <div class="demo__group" role="tablist" aria-label="Вариант">
-        <button data-var="A">Вариант 1</button><button data-var="B">Вариант 2</button>
-      </div>
-      <div class="demo__group" role="tablist" aria-label="Версия">
-        <button data-view="dv">ДВ</button><button data-view="mv">МВ</button>
+      <!-- один блок: сверху вариант (открывает ДВ), под ним — версия ДВ/МВ этого варианта -->
+      <div class="sw" aria-label="Выбор варианта">
+        <div class="sw__row sw__row--var" role="tablist" aria-label="Вариант">
+          <button data-var="A" type="button">Вариант 1</button><button data-var="B" type="button">Вариант 2</button>
+        </div>
+        <div class="sw__row sw__row--view" role="tablist" aria-label="Версия">
+          <button data-view="dv" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Десктоп</button><button data-view="mv" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Мобильная</button>
+        </div>
       </div>
       <button class="demo__reset" id="reset" type="button">↺ Показать NEW заново</button>
     </div>

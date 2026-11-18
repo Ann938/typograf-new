@@ -335,3 +335,21 @@ body.ann-closed[data-v="mvB"] .m-dot { display: none !important; }
 /* «Новое» ведёт себя как часть кнопки Типографа: наведение подсвечивает палочку */
 .typo__btn.is-hover { background: var(--stroke); }
 body.is-new[data-v="dvA"] .typo__badge { pointer-events: auto; cursor: pointer; }
+
+/* переключатель вариантов: один блок, сверху вариант, ниже — ДВ/МВ */
+.sw { display: grid; gap: 4px; padding: 4px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); min-width: 280px; }
+.sw__row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.sw button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; color: #fcfdff; font-weight: 500; transition: background-color 0.2s, color 0.2s; }
+.sw button:hover { background: rgba(255, 255, 255, 0.12); }
+.sw__row--var button { height: 34px; font-size: 14px; }
+.sw__row--var button.is-on { background: var(--green); color: #1f2021; }
+.sw__row--view { padding: 3px; border-radius: 10px; background: rgba(0, 0, 0, 0.25); }
+.sw__row--view button { height: 28px; font-size: 12px; color: rgba(252, 253, 255, 0.7); }
+.sw__row--view button.is-on { background: #fcfdff; color: #1f2021; }
+@media (max-width: 640px) {
+  .sw { min-width: 0; flex: none; width: 100%; }
+}
+@media (max-width: 640px) {
+  .demo__row { flex-wrap: wrap; overflow: visible; }
+  .sw { width: calc(100% - 46px); }
+}
