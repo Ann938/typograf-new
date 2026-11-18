@@ -331,3 +331,7 @@ body.ann-closed[data-v="mvB"] .m-dot { display: none !important; }
 .annB__new { cursor: pointer; border: 0; }
 .annB__new:hover { filter: brightness(0.95); }
 .nav-item__right { cursor: pointer; }
+
+/* «Новое» ведёт себя как часть кнопки Типографа: наведение подсвечивает палочку */
+.typo__btn.is-hover { background: var(--stroke); }
+body.is-new[data-v="dvA"] .typo__badge { pointer-events: auto; cursor: pointer; }

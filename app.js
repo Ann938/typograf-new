@@ -91,7 +91,7 @@
       const isTypo = el === typoBtn;
       const isNew = body.classList.contains("is-new");
       tip.querySelector(".tip__c").innerHTML = isTypo
-        ? (v === "dvA" ? "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку." : v === "dv2" && isNew ? "<b>Типограф</b><i class='counter'>NEW</i><br>Исправит кавычки, тире и пробелы. Выделите текст и нажмите." : "Типограф: кавычки, тире и пробелы")
+        ? (v === "dvA" || v === "dvB" ? "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку." : v === "dv2" && isNew ? "<b>Типограф</b><i class='counter'>NEW</i><br>Исправит кавычки, тире и пробелы. Выделите текст и нажмите." : "Типограф: кавычки, тире и пробелы")
         : el.dataset.tip;
       const o = offsetIn(el, col);
       tip.style.left = "0px"; tip.classList.add("is-on");
@@ -103,6 +103,13 @@
   function hideTip() { clearTimeout(tipT); tip.classList.remove("is-on"); }
   $$("#toolbar .bi").forEach((b) => { b.addEventListener("mouseenter", () => showTip(b)); b.addEventListener("mouseleave", hideTip); });
   typoBtn.addEventListener("mousedown", (e) => e.preventDefault()); // не сбрасываем выделение текста
+  // наведение на «Новое» подсвечивает палочку и показывает её подсказку
+  const hoverNew = (on) => { typoBtn.classList.toggle("is-hover", on); if (on) showTip(typoBtn); else hideTip(); };
+  for (const el of [$(".typo__badge"), $("#annBNew")]) {
+    el.addEventListener("mouseenter", () => hoverNew(true));
+    el.addEventListener("mouseleave", () => hoverNew(false));
+  }
+  $(".typo__badge").addEventListener("click", () => { hideTip(); runTypograf($("#editor")); });
   typoBtn.addEventListener("click", () => { hideTip(); runTypograf($("#editor")); });
 
   const coach = $("#coach");
@@ -156,15 +163,12 @@
   // ДВ вариант 2: «Новое» в строке — подсказка под плашкой
   $("#annBNew").addEventListener("click", (e) => {
     e.stopPropagation();
-    if (tip.classList.contains("is-on")) { hideTip(); return; }
-    const el = e.currentTarget;
-    tip.querySelector(".tip__c").innerHTML = "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.";
-    const o = offsetIn(el, col);
-    tip.classList.add("is-on");
-    tip.style.left = o.x + "px";
-    tip.style.top = o.y + el.offsetHeight + 4 + "px";
+    if (tip.classList.contains("is-on")) return; // уже показана наведением
+    typoBtn.classList.add("is-hover");
+    clearTimeout(tipT);
+    showTip(typoBtn);
   });
-  document.addEventListener("click", (e) => { if (!e.target.closest("#annBNew") && v === "dvB") hideTip(); });
+  document.addEventListener("click", (e) => { if (!e.target.closest("#annBNew") && v === "dvB") { hideTip(); typoBtn.classList.remove("is-hover"); } });
   $("#mTypo").addEventListener("click", () => { closeSheet(); runTypograf($(".m-editor")); });
   $("#snackOpen").addEventListener("click", openSheet);
   $("#mCoachOk").addEventListener("click", closeCoach);
