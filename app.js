@@ -195,7 +195,8 @@
   function start(next) {
     v = DESC[next] ? next : "dvA";
     body.dataset.v = v;
-    $$(".demo__group button").forEach((b) => b.classList.toggle("is-on", b.dataset.v === v));
+    $$("[data-var]").forEach((b) => b.classList.toggle("is-on", v.endsWith(b.dataset.var)));
+    $$("[data-view]").forEach((b) => b.classList.toggle("is-on", v.startsWith(b.dataset.view)));
     $("#desc").innerHTML = DESC[v];
     // подписи плашек и место «Типографа» в меню — как в макете выбранных вариантов
     $(".typo__badge").textContent = v === "dvA" ? "Новое" : "NEW";
@@ -213,7 +214,10 @@
     document.documentElement.style.setProperty("--demo-h", $(".demo").offsetHeight + "px");
     fitDv();
   }
-  $$(".demo__group button").forEach((b) => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.v); start(b.dataset.v); }));
+  const go = (next) => { history.replaceState(null, "", "#" + next); start(next); };
+  // выбор варианта всегда открывает ДВ; ДВ/МВ переключает версию текущего варианта
+  $$("[data-var]").forEach((b) => b.addEventListener("click", () => go("dv" + b.dataset.var)));
+  $$("[data-view]").forEach((b) => b.addEventListener("click", () => go(b.dataset.view + (v.endsWith("B") ? "B" : "A"))));
   $("#reset").addEventListener("click", () => { store.clear(); start(v); toast("Плашки NEW снова на месте"); });
   addEventListener("resize", () => { document.documentElement.style.setProperty("--demo-h", $(".demo").offsetHeight + "px"); if (body.classList.contains("coach-open")) placeCoach(); });
 

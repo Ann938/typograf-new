@@ -33,7 +33,7 @@ img { display: block; }
 .demo__title span { font-weight: 400; opacity: 0.55; margin-left: 4px; }
 .demo__group { display: flex; align-items: center; gap: 4px; background: rgba(255, 255, 255, 0.08); padding: 4px; border-radius: 12px; }
 .demo__label { font-size: 12px; font-weight: 600; opacity: 0.6; padding: 0 6px 0 8px; }
-.demo__group button { min-width: 32px; height: 32px; border-radius: 8px; font-weight: 500; color: #fcfdff; }
+.demo__group button { min-width: 32px; height: 32px; padding: 0 12px; border-radius: 8px; font-weight: 500; color: #fcfdff; }
 .demo__group button:hover { background: rgba(255, 255, 255, 0.12); }
 .demo__group button.is-on { background: var(--green); color: #1f2021; }
 .demo__reset { margin-left: auto; height: 32px; padding: 0 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.12); color: #fcfdff; font-size: 13px; font-weight: 500; }

@@ -18,13 +18,12 @@
   <div class="demo__in">
     <div class="demo__row">
       <b class="demo__title">Типограф · NEW <span>прототип</span></b>
-      <div class="demo__group" role="tablist" aria-label="Вариант 1">
-        <span class="demo__label">Вариант 1</span>
-        <button data-v="dvA">ДВ</button><button data-v="mvA">МВ</button>
+      <!-- вариант целиком кликабельный: выбор варианта открывает ДВ, рядом — переключатель ДВ/МВ -->
+      <div class="demo__group" role="tablist" aria-label="Вариант">
+        <button data-var="A">Вариант 1</button><button data-var="B">Вариант 2</button>
       </div>
-      <div class="demo__group" role="tablist" aria-label="Вариант 2">
-        <span class="demo__label">Вариант 2</span>
-        <button data-v="dvB">ДВ</button><button data-v="mvB">МВ</button>
+      <div class="demo__group" role="tablist" aria-label="Версия">
+        <button data-view="dv">ДВ</button><button data-view="mv">МВ</button>
       </div>
       <button class="demo__reset" id="reset" type="button">↺ Показать NEW заново</button>
     </div>
