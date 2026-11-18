@@ -291,8 +291,9 @@ body.is-new .blink-dot::after { animation: blinkRing 1.4s ease-out infinite; }
 .typo__blink { display: none; right: -2px; top: -2px; }
 body.is-new[data-v="dvB"] .typo__blink { display: block; }
 .m-dot { display: none; right: 0; top: 0; }
-body.is-new.more-new[data-v="mvA"] .m-dot,
-body.is-new.more-new[data-v="mvB"] .m-dot { display: block; }
+/* точка на «⋯» живёт, пока Типографом не воспользовались (как и «Новое» в меню) */
+body.is-new[data-v="mvA"] .m-dot,
+body.is-new[data-v="mvB"] .m-dot { display: block; }
 
 /* вариант 1 ДВ: плашка «Новое» на углу палочки, без подсветки кнопки */
 body.is-new[data-v="dvA"] .typo__badge { opacity: 1; transform: scale(1); }
@@ -310,7 +311,7 @@ body.show-announce[data-v="mvB"] #mAnnB { display: flex; }
 .arrowB--m { left: auto; right: 42px; top: 22px; }
 .m-editor { position: relative; }
 body.show-announce.is-new[data-v="dvB"] .editor > .arrowB,
-body.show-announce.is-new.more-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
+body.show-announce.is-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
 .arrowB__line { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawArrow 1s 0.3s ease-out forwards; }
 @keyframes drawArrow { to { stroke-dashoffset: 0; } }
 
