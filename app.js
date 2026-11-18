@@ -7,9 +7,9 @@
 
   const DESC = {
     dvA: "<b>Вариант 1 · ДВ.</b> Плашка «Новое» на углу палочки. Наведите на палочку — через полсекунды появится подсказка. Нажмите — Типограф поправит текст, плашка исчезнет.",
-    mvA: "<b>Вариант 1 · МВ.</b> Мигающая точка на «⋯». Откройте меню: «Типограф» внизу списка с плашкой «Новое», при первом открытии — подсказка. Точка пропадает после первого открытия меню.",
-    dvB: "<b>Вариант 2 · ДВ.</b> Строка «Новое» под тулбаром и стрелка к мигающей точке на палочке. Крестик прячет строку, точка мигает до первого нажатия на палочку.",
-    mvB: "<b>Вариант 2 · МВ.</b> Строка под тулбаром и стрелка к мигающей точке на «⋯». В меню «Типограф» внизу с плашкой NEW. Точка пропадает после первого открытия меню.",
+    mvA: "<b>Вариант 1 · МВ.</b> Мигающая точка на «⋯». Откройте меню: «Типограф» внизу списка с плашкой «Новое» — нажмите на «Новое», чтобы увидеть подсказку. Точка пропадает после первого открытия меню.",
+    dvB: "<b>Вариант 2 · ДВ.</b> Строка «Новое» под тулбаром и стрелка к мигающей точке на палочке. Нажмите «Новое» — появится подсказка. Крестик прячет строку вместе с точкой.",
+    mvB: "<b>Вариант 2 · МВ.</b> Строка под тулбаром и стрелка к мигающей точке на «⋯». В меню «Типограф» внизу с плашкой NEW — по нажатию на NEW подсказка. Крестик прячет строку вместе с точкой.",
     dv1: "<b>ДВ-1 · Бейдж NEW на углу иконки (рекомендую).</b> Плашка сидит на углу палочки, кнопка подсвечена. Нажмите на палочку — текст поправится, бейдж исчезнет навсегда.",
     dv2: "<b>ДВ-2 · Точка + тултип.</b> На иконке только зелёная точка, слово NEW и пояснение — в тултипе при наведении (через 0,5 с, как в библиотеке).",
     dv3: "<b>ДВ-3 · NEW рядом с иконкой.</b> Плашка стоит в строку справа от палочки и входит в кнопку. После первого нажатия тулбар возвращается к обычной ширине.",
@@ -133,13 +133,9 @@
     sheetTip.style.display = firstTip ? "" : "none";
     sheetTip.classList.toggle("is-on", firstTip);
     if (firstTip) store.set(key("tip"));
-    const rowTip = $("#rowTip");
-    const firstRowTip = v === "mvA" && !used && !store.get(key("tip"));
-    rowTip.classList.toggle("is-on", firstRowTip);
-    if (firstRowTip) store.set(key("tip"));
+    $("#rowTip").classList.remove("is-on");
     sheet.classList.add("is-open");
     sheet.setAttribute("aria-hidden", "false");
-    if (firstRowTip) requestAnimationFrame(() => { const row = $("#mTypo"); rowTip.style.top = row.offsetTop - rowTip.offsetHeight + 6 + "px"; });
     render();
   }
   function closeSheet() { sheet.classList.remove("is-open"); sheet.setAttribute("aria-hidden", "true"); }
@@ -148,6 +144,27 @@
   sheet.addEventListener("click", (e) => { if (e.target === sheet) closeSheet(); });
   sheetTip.addEventListener("click", () => sheetTip.classList.remove("is-on"));
   $("#rowTip").addEventListener("click", () => $("#rowTip").classList.remove("is-on"));
+  // нажатие на плашку «Новое»/NEW в меню открывает подсказку и не запускает Типограф
+  $(".nav-item__right").addEventListener("click", (e) => {
+    if (!AB()) return;
+    e.stopPropagation();
+    const rowTip = $("#rowTip"), row = $("#mTypo");
+    const on = !rowTip.classList.contains("is-on");
+    rowTip.classList.toggle("is-on", on);
+    if (on) rowTip.style.top = row.offsetTop - rowTip.offsetHeight + 6 + "px";
+  });
+  // ДВ вариант 2: «Новое» в строке — подсказка под плашкой
+  $("#annBNew").addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (tip.classList.contains("is-on")) { hideTip(); return; }
+    const el = e.currentTarget;
+    tip.querySelector(".tip__c").innerHTML = "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.";
+    const o = offsetIn(el, col);
+    tip.classList.add("is-on");
+    tip.style.left = o.x + "px";
+    tip.style.top = o.y + el.offsetHeight + 4 + "px";
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest("#annBNew") && v === "dvB") hideTip(); });
   $("#mTypo").addEventListener("click", () => { closeSheet(); runTypograf($(".m-editor")); });
   $("#snackOpen").addEventListener("click", openSheet);
   $("#mCoachOk").addEventListener("click", closeCoach);
@@ -173,6 +190,7 @@
     body.classList.toggle("show-announce", (v === "dv6" || v === "mv6" || v === "dvB" || v === "mvB") && !used && !store.get(key("announce")));
     body.classList.toggle("more-new", !store.get(key("more")));
     body.classList.toggle("item-new", !used);
+    body.classList.toggle("ann-closed", store.get(key("announce")));
   }
   function start(next) {
     v = DESC[next] ? next : "dvA";

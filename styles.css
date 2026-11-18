@@ -306,12 +306,12 @@ body.is-new[data-v="dvA"] .typo__badge { right: -22px; }
 .annB__wand { width: 24px; height: 24px; filter: invert(62%) sepia(46%) saturate(560%) hue-rotate(48deg) brightness(92%); }
 body.show-announce[data-v="dvB"] #annB,
 body.show-announce[data-v="mvB"] #mAnnB { display: flex; }
-.arrowB { display: none; position: absolute; left: 430px; top: 10px; pointer-events: none; z-index: 3; }
-.arrowB--m { left: auto; right: 10px; top: 2px; }
+.arrowB { display: none; position: absolute; left: 491px; top: 43px; pointer-events: none; z-index: 3; }
+.arrowB--m { left: auto; right: 42px; top: 22px; }
 .m-editor { position: relative; }
 body.show-announce.is-new[data-v="dvB"] .editor > .arrowB,
 body.show-announce.is-new.more-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
-.arrowB__line { stroke-dasharray: 220; stroke-dashoffset: 220; animation: drawArrow 0.9s 0.3s ease-out forwards; }
+.arrowB__line { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawArrow 1s 0.3s ease-out forwards; }
 @keyframes drawArrow { to { stroke-dashoffset: 0; } }
 
 /* меню МВ: «Типограф» последним, без подсветки строки; подсказка у строки */
@@ -323,3 +323,11 @@ body.is-new.item-new[data-v="mvB"] .nav-item__right { display: inline-flex; }
 .tip--row { position: absolute; right: 16px; width: 220px; z-index: 2; display: none; flex-direction: column; align-items: flex-end; pointer-events: auto; }
 .tip--row.is-on { display: flex; opacity: 1; }
 .tip--row .tip__arrow { width: 24px; height: 24px; margin: -9px 10px 0 0; }
+
+/* вариант 2: после крестика пропадает и точка */
+body.ann-closed[data-v="dvB"] .typo__blink,
+body.ann-closed[data-v="mvB"] .m-dot { display: none !important; }
+/* плашка «Новое» в строке — кнопка подсказки */
+.annB__new { cursor: pointer; border: 0; }
+.annB__new:hover { filter: brightness(0.95); }
+.nav-item__right { cursor: pointer; }
