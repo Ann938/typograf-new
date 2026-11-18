@@ -24,7 +24,7 @@
       </div>
       <div class="demo__group" role="tablist" aria-label="Мобильная версия">
         <span class="demo__label">МВ</span>
-        <button data-v="mv1">1</button><button data-v="mv2">2</button><button data-v="mv3">3</button><button data-v="mv4">4</button><button data-v="mv5">5</button>
+        <button data-v="mv1">1</button><button data-v="mv2">2</button><button data-v="mv3">3</button><button data-v="mv4">4</button><button data-v="mv5">5</button><button data-v="mv6">6</button>
       </div>
       <button class="demo__reset" id="reset" type="button">↺ Показать NEW заново</button>
     </div>
@@ -198,6 +198,13 @@
             </span>
           </div>
         </div>
+        <!-- МВ-6: анонс-строка под тулбаром -->
+        <div class="announce m-announce" id="mAnnounce">
+          <i class="counter">NEW</i>
+          <span>Типограф поправит кавычки и тире</span>
+          <button class="announce__try" type="button" id="mAnnounceTry">Попробовать</button>
+          <button class="announce__close" type="button" id="mAnnounceClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
+        </div>
         <div class="m-editor__body">
           <div class="m-editor__text">
             <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок">Как я "починил" старый велосипед</h1>
@@ -272,7 +279,7 @@
       <div class="coach coach--m">
         <div class="coach__head"><i class="counter">NEW</i><b>Типограф</b></div>
         <p>Кавычки, тире и пробелы — как в книге. Нажмите «⋯» и выберите «Типограф».</p>
-        <div class="coach__btns"><button class="btn btn--primary" id="mCoachOk" type="button">Понятно</button></div>
+        <div class="coach__btns"><button class="btn btn--primary" id="mCoachTry" type="button">Попробовать</button><button class="btn btn--secondary" id="mCoachOk" type="button">Понятно</button></div>
       </div>
     </div>
   </div>

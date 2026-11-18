@@ -15,7 +15,8 @@
     mv1: "<b>МВ-1 · Как в макете.</b> Нажмите «⋯» в тулбаре: в шторке пункт «Типограф» подсвечен, NEW справа, при первом открытии — тултип. Нажмите на пункт — текст поправится.",
     mv2: "<b>МВ-2 · NEW сразу после названия.</b> То же, что МВ-1, но плашка стоит вплотную к слову «Типограф».",
     mv3: "<b>МВ-3 · Бейдж NEW на «⋯» (рекомендую).</b> Без него пункт с NEW не увидят, пока сами не откроют шторку. Бейдж на кнопке пропадает после первого открытия, NEW в пункте — после первого использования.",
-    mv4: "<b>МВ-4 · Онбординг при первом открытии.</b> Затемнение, пульс вокруг «⋯» и карточка под ней. Один раз.",
+    mv4: "<b>МВ-4 · Онбординг один раз после релиза.</b> Затемнение, пульс вокруг «⋯» и карточка с «Попробовать» (сразу поправит текст) и «Понятно». Дальше остаётся только бейдж на «⋯», как в МВ-3.",
+    mv6: "<b>МВ-6 · Анонс-строка под тулбаром.</b> NEW + одна фраза + «Попробовать» + крестик прямо в редакторе. «Попробовать» сразу правит текст, крестик прячет строку навсегда.",
     mv5: "<b>МВ-5 · Снекбар внизу экрана.</b> Появляется через секунду и сам исчезает через 6 с. «Открыть» открывает шторку «⋯».",
   };
 
@@ -138,6 +139,9 @@
   $("#mTypo").addEventListener("click", () => { closeSheet(); runTypograf($(".m-editor")); });
   $("#snackOpen").addEventListener("click", openSheet);
   $("#mCoachOk").addEventListener("click", closeCoach);
+  $("#mCoachTry").addEventListener("click", () => { store.set(key("more")); runTypograf($(".m-editor")); });
+  $("#mAnnounceTry").addEventListener("click", () => { store.set(key("announce")); runTypograf($(".m-editor")); });
+  $("#mAnnounceClose").addEventListener("click", () => { store.set(key("announce")); render(); });
 
   function placeMCoach() {
     const ring = $(".m-coach__ring"), card = $(".coach--m");
@@ -153,7 +157,7 @@
   function render() {
     const used = store.get(key("used"));
     body.classList.toggle("is-new", !used);
-    body.classList.toggle("show-announce", v === "dv6" && !store.get(key("announce")));
+    body.classList.toggle("show-announce", (v === "dv6" || v === "mv6") && !store.get(key("announce")));
     body.classList.toggle("more-new", !store.get(key("more")));
     body.classList.toggle("item-new", !used);
   }
