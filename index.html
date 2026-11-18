@@ -18,13 +18,13 @@
   <div class="demo__in">
     <div class="demo__row">
       <b class="demo__title">Типограф · NEW <span>прототип</span></b>
-      <div class="demo__group" role="tablist" aria-label="Десктоп">
-        <span class="demo__label">ДВ</span>
-        <button data-v="dv1">1</button><button data-v="dv2">2</button><button data-v="dv3">3</button><button data-v="dv4">4</button><button data-v="dv5">5</button><button data-v="dv6">6</button>
+      <div class="demo__group" role="tablist" aria-label="Вариант 1">
+        <span class="demo__label">Вариант 1</span>
+        <button data-v="dvA">ДВ</button><button data-v="mvA">МВ</button>
       </div>
-      <div class="demo__group" role="tablist" aria-label="Мобильная версия">
-        <span class="demo__label">МВ</span>
-        <button data-v="mv1">1</button><button data-v="mv2">2</button><button data-v="mv3">3</button><button data-v="mv4">4</button><button data-v="mv5">5</button><button data-v="mv6">6</button>
+      <div class="demo__group" role="tablist" aria-label="Вариант 2">
+        <span class="demo__label">Вариант 2</span>
+        <button data-v="dvB">ДВ</button><button data-v="mvB">МВ</button>
       </div>
       <button class="demo__reset" id="reset" type="button">↺ Показать NEW заново</button>
     </div>
@@ -85,6 +85,7 @@
                 <i class="counter typo__badge" aria-hidden="true">NEW</i>
                 <i class="typo__dot" aria-hidden="true"></i>
                 <i class="typo__pulse pulse-ring" aria-hidden="true"></i>
+                <i class="blink-dot typo__blink" aria-hidden="true"></i>
               </div>
             </div>
           </div>
@@ -96,6 +97,14 @@
             <button class="announce__try" type="button" id="announceTry">Попробовать</button>
             <button class="announce__close" type="button" id="announceClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
           </div>
+
+          <!-- Вариант 2 (ДВ): строка «Новое» + стрелка к мигающей точке -->
+          <div class="annB" id="annB">
+            <i class="counter">Новое</i>
+            <span>Типограф поправит кавычки, тире и пробелы в один клик</span>
+            <button class="announce__close" type="button" id="annBClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
+          </div>
+          <svg class="arrowB" width="200" height="90" viewBox="0 0 200 90" fill="none" aria-hidden="true"><path class="arrowB__line" d="M48 72C110 90 192 70 156 16" stroke="#78B247" stroke-width="2" stroke-linecap="round"/><path d="M156.35 25L156 16L164 20.2" stroke="#78B247" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 
           <div class="editor__body">
             <div class="editor__text">
@@ -195,6 +204,7 @@
             <span class="m-more-wrap">
               <button class="bi m-more" id="more" type="button" aria-label="Ещё"><img src="assets/more.svg" alt=""></button>
               <i class="counter m-more__badge" aria-hidden="true">NEW</i>
+              <i class="blink-dot m-dot" aria-hidden="true"></i>
             </span>
           </div>
         </div>
@@ -205,6 +215,13 @@
           <button class="announce__try" type="button" id="mAnnounceTry">Попробовать</button>
           <button class="announce__close" type="button" id="mAnnounceClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
         </div>
+        <!-- Вариант 2 (МВ): строка под тулбаром + стрелка к мигающей точке на «⋯» -->
+        <div class="annB annB--m" id="mAnnB">
+          <img class="annB__wand" src="assets/m-wand.svg" alt="">
+          <span>Типограф поправит кавычки, тире и пробелы в один клик</span>
+          <button class="announce__close" type="button" id="mAnnBClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
+        </div>
+        <svg class="arrowB arrowB--m" width="70" height="52" viewBox="0 0 70 52" fill="none" aria-hidden="true"><path class="arrowB__line" d="M20 48C16 26 30 10 50 10" stroke="#78B247" stroke-width="2" stroke-linecap="round"/><path d="M43.9 6.5L50 10L43.9 13.5" stroke="#78B247" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="m-editor__body">
           <div class="m-editor__text">
             <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок">Как я "починил" старый велосипед</h1>
@@ -268,6 +285,7 @@
           <button class="nav-item" type="button"><img src="assets/m-align-left.svg" alt=""><span class="nav-item__t">По левому краю</span></button>
           <button class="nav-item" type="button"><img src="assets/m-align-center.svg" alt=""><span class="nav-item__t">По центру</span></button>
           <button class="nav-item" type="button"><img src="assets/m-align-right.svg" alt=""><span class="nav-item__t">По правому краю</span></button>
+          <div class="tip tip--row" id="rowTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
           <div class="sheet__btn"><button class="btn btn--secondary btn--full" id="sheetClose" type="button">Закрыть</button></div>
         </div>
       </div>

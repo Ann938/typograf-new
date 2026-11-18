@@ -278,3 +278,48 @@ body[data-v^="mv"] .mv { display: flex; }
   .nav-item { padding-block: 5px; }
   .sheet { padding-block: 16px; }
 }
+
+
+/* ===== Выбранные варианты (страница Design в Figma) ===== */
+/* мигающая точка: 8 px, зелёный из макета, «дышит» и пускает кольцо */
+.blink-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #78b247; opacity: 0; pointer-events: none; }
+.blink-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #78b247; }
+body.is-new .blink-dot { opacity: 1; animation: blinkDot 1.4s ease-in-out infinite; }
+body.is-new .blink-dot::after { animation: blinkRing 1.4s ease-out infinite; }
+@keyframes blinkDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.8); } }
+@keyframes blinkRing { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.6); opacity: 0; } }
+.typo__blink { display: none; right: -2px; top: -2px; }
+body.is-new[data-v="dvB"] .typo__blink { display: block; }
+.m-dot { display: none; right: 0; top: 0; }
+body.is-new.more-new[data-v="mvA"] .m-dot,
+body.is-new.more-new[data-v="mvB"] .m-dot { display: block; }
+
+/* вариант 1 ДВ: плашка «Новое» на углу палочки, без подсветки кнопки */
+body.is-new[data-v="dvA"] .typo__badge { opacity: 1; transform: scale(1); }
+body.is-new[data-v="dvA"] .typo__badge { right: -22px; }
+
+/* вариант 2: строка под тулбаром */
+.editor { position: relative; }
+.annB { display: none; align-items: center; gap: 8px; padding: 8px 16px 8px 24px; background: #f4ffeb; color: var(--muted); }
+.annB span { flex: 1; }
+.annB--m { padding: 8px 8px 8px 16px; gap: 12px; font-size: 14px; line-height: 24px; }
+.annB__wand { width: 24px; height: 24px; filter: invert(62%) sepia(46%) saturate(560%) hue-rotate(48deg) brightness(92%); }
+body.show-announce[data-v="dvB"] #annB,
+body.show-announce[data-v="mvB"] #mAnnB { display: flex; }
+.arrowB { display: none; position: absolute; left: 430px; top: 10px; pointer-events: none; z-index: 3; }
+.arrowB--m { left: auto; right: 10px; top: 2px; }
+.m-editor { position: relative; }
+body.show-announce.is-new[data-v="dvB"] .editor > .arrowB,
+body.show-announce.is-new.more-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
+.arrowB__line { stroke-dasharray: 220; stroke-dashoffset: 220; animation: drawArrow 0.9s 0.3s ease-out forwards; }
+@keyframes drawArrow { to { stroke-dashoffset: 0; } }
+
+/* меню МВ: «Типограф» последним, без подсветки строки; подсказка у строки */
+body.is-new.item-new[data-v="mvA"] .nav-item--typo,
+body.is-new.item-new[data-v="mvB"] .nav-item--typo { background: none; }
+body.is-new.item-new[data-v="mvA"] .nav-item__right,
+body.is-new.item-new[data-v="mvB"] .nav-item__right { display: inline-flex; }
+.sheet__box { position: relative; }
+.tip--row { position: absolute; right: 16px; width: 220px; z-index: 2; display: none; flex-direction: column; align-items: flex-end; pointer-events: auto; }
+.tip--row.is-on { display: flex; opacity: 1; }
+.tip--row .tip__arrow { width: 24px; height: 24px; margin: -9px 10px 0 0; }

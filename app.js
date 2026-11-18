@@ -6,6 +6,10 @@
   const body = document.body;
 
   const DESC = {
+    dvA: "<b>Вариант 1 · ДВ.</b> Плашка «Новое» на углу палочки. Наведите на палочку — через полсекунды появится подсказка. Нажмите — Типограф поправит текст, плашка исчезнет.",
+    mvA: "<b>Вариант 1 · МВ.</b> Мигающая точка на «⋯». Откройте меню: «Типограф» внизу списка с плашкой «Новое», при первом открытии — подсказка. Точка пропадает после первого открытия меню.",
+    dvB: "<b>Вариант 2 · ДВ.</b> Строка «Новое» под тулбаром и стрелка к мигающей точке на палочке. Крестик прячет строку, точка мигает до первого нажатия на палочку.",
+    mvB: "<b>Вариант 2 · МВ.</b> Строка под тулбаром и стрелка к мигающей точке на «⋯». В меню «Типограф» внизу с плашкой NEW. Точка пропадает после первого открытия меню.",
     dv1: "<b>ДВ-1 · Бейдж NEW на углу иконки (рекомендую).</b> Плашка сидит на углу палочки, кнопка подсвечена. Нажмите на палочку — текст поправится, бейдж исчезнет навсегда.",
     dv2: "<b>ДВ-2 · Точка + тултип.</b> На иконке только зелёная точка, слово NEW и пояснение — в тултипе при наведении (через 0,5 с, как в библиотеке).",
     dv3: "<b>ДВ-3 · NEW рядом с иконкой.</b> Плашка стоит в строку справа от палочки и входит в кнопку. После первого нажатия тулбар возвращается к обычной ширине.",
@@ -26,7 +30,8 @@
     set(k) { try { localStorage.setItem("tn:" + k, "1"); } catch {} },
     clear() { try { Object.keys(localStorage).filter((k) => k.startsWith("tn:")).forEach((k) => localStorage.removeItem(k)); } catch {} },
   };
-  let v = "dv1";
+  let v = "dvA";
+  const AB = () => ["dvA", "mvA", "dvB", "mvB"].includes(v);
   const key = (name) => `${v}:${name}`;
 
   // ---------- типограф ----------
@@ -86,7 +91,7 @@
       const isTypo = el === typoBtn;
       const isNew = body.classList.contains("is-new");
       tip.querySelector(".tip__c").innerHTML = isTypo
-        ? (v === "dv2" && isNew ? "<b>Типограф</b><i class='counter'>NEW</i><br>Исправит кавычки, тире и пробелы. Выделите текст и нажмите." : "Типограф: кавычки, тире и пробелы")
+        ? (v === "dvA" ? "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку." : v === "dv2" && isNew ? "<b>Типограф</b><i class='counter'>NEW</i><br>Исправит кавычки, тире и пробелы. Выделите текст и нажмите." : "Типограф: кавычки, тире и пробелы")
         : el.dataset.tip;
       const o = offsetIn(el, col);
       tip.style.left = "0px"; tip.classList.add("is-on");
@@ -112,6 +117,7 @@
   $("#coachTry").addEventListener("click", () => runTypograf($("#editor")));
   $("#announceTry").addEventListener("click", () => { store.set(key("announce")); runTypograf($("#editor")); });
   $("#announceClose").addEventListener("click", () => { store.set(key("announce")); render(); });
+  $("#annBClose").addEventListener("click", () => { store.set(key("announce")); render(); });
 
   // масштаб ДВ на узких экранах — страница Пикабу рассчитана на 1020 + поля
   function fitDv() { const z = Math.min(1, innerWidth / 1100); $("#dvZoom").style.zoom = z < 1 ? z : ""; }
@@ -127,8 +133,13 @@
     sheetTip.style.display = firstTip ? "" : "none";
     sheetTip.classList.toggle("is-on", firstTip);
     if (firstTip) store.set(key("tip"));
+    const rowTip = $("#rowTip");
+    const firstRowTip = v === "mvA" && !used && !store.get(key("tip"));
+    rowTip.classList.toggle("is-on", firstRowTip);
+    if (firstRowTip) store.set(key("tip"));
     sheet.classList.add("is-open");
     sheet.setAttribute("aria-hidden", "false");
+    if (firstRowTip) requestAnimationFrame(() => { const row = $("#mTypo"); rowTip.style.top = row.offsetTop - rowTip.offsetHeight + 6 + "px"; });
     render();
   }
   function closeSheet() { sheet.classList.remove("is-open"); sheet.setAttribute("aria-hidden", "true"); }
@@ -136,12 +147,14 @@
   $("#sheetClose").addEventListener("click", closeSheet);
   sheet.addEventListener("click", (e) => { if (e.target === sheet) closeSheet(); });
   sheetTip.addEventListener("click", () => sheetTip.classList.remove("is-on"));
+  $("#rowTip").addEventListener("click", () => $("#rowTip").classList.remove("is-on"));
   $("#mTypo").addEventListener("click", () => { closeSheet(); runTypograf($(".m-editor")); });
   $("#snackOpen").addEventListener("click", openSheet);
   $("#mCoachOk").addEventListener("click", closeCoach);
   $("#mCoachTry").addEventListener("click", () => { store.set(key("more")); runTypograf($(".m-editor")); });
   $("#mAnnounceTry").addEventListener("click", () => { store.set(key("announce")); runTypograf($(".m-editor")); });
   $("#mAnnounceClose").addEventListener("click", () => { store.set(key("announce")); render(); });
+  $("#mAnnBClose").addEventListener("click", () => { store.set(key("announce")); render(); });
 
   function placeMCoach() {
     const ring = $(".m-coach__ring"), card = $(".coach--m");
@@ -157,15 +170,21 @@
   function render() {
     const used = store.get(key("used"));
     body.classList.toggle("is-new", !used);
-    body.classList.toggle("show-announce", (v === "dv6" || v === "mv6") && !store.get(key("announce")));
+    body.classList.toggle("show-announce", (v === "dv6" || v === "mv6" || v === "dvB" || v === "mvB") && !used && !store.get(key("announce")));
     body.classList.toggle("more-new", !store.get(key("more")));
     body.classList.toggle("item-new", !used);
   }
   function start(next) {
-    v = DESC[next] ? next : "dv1";
+    v = DESC[next] ? next : "dvA";
     body.dataset.v = v;
     $$(".demo__group button").forEach((b) => b.classList.toggle("is-on", b.dataset.v === v));
     $("#desc").innerHTML = DESC[v];
+    // подписи плашек и место «Типографа» в меню — как в макете выбранных вариантов
+    $(".typo__badge").textContent = v === "dvA" ? "Новое" : "NEW";
+    $(".nav-item__right").textContent = v === "mvA" ? "Новое" : "NEW";
+    const box = $(".sheet__box"), row = $("#mTypo");
+    if (AB()) box.insertBefore(row, $("#rowTip")); else box.prepend(row);
+    $("#rowTip").classList.remove("is-on");
     hideTip(); closeSheet(); clearTimeout(snackT1); clearTimeout(snackT2); snack.classList.remove("is-on");
     body.classList.remove("coach-open"); $("#mCoach").classList.remove("is-on"); phone.classList.remove("coach-on");
     render();
@@ -182,6 +201,6 @@
 
   addEventListener("hashchange", () => start(location.hash.slice(1)));
   $("#desc").addEventListener("click", (e) => { e.currentTarget.classList.toggle("is-open"); document.documentElement.style.setProperty("--demo-h", $(".demo").offsetHeight + "px"); });
-  const initial = location.hash.slice(1) || (matchMedia("(max-width: 700px)").matches ? "mv3" : "dv1");
+  const initial = location.hash.slice(1) || (matchMedia("(max-width: 700px)").matches ? "mvA" : "dvA");
   start(initial);
 })();
