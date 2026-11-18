@@ -292,8 +292,9 @@ body.is-new .blink-dot::after { animation: blinkRing 1.4s ease-out infinite; }
 body.is-new[data-v="dvB"] .typo__blink { display: block; }
 .m-dot { display: none; right: 0; top: 0; }
 /* точка на «⋯» живёт, пока Типографом не воспользовались (как и «Новое» в меню) */
-body.is-new[data-v="mvA"] .m-dot,
-body.is-new[data-v="mvB"] .m-dot { display: block; }
+/* точка на «⋯» мигает до первого тапа по «⋯», потом пропадает */
+body.is-new.more-new[data-v="mvA"] .m-dot,
+body.is-new.more-new[data-v="mvB"] .m-dot { display: block; }
 
 /* вариант 1 ДВ: плашка «Новое» на углу палочки, без подсветки кнопки */
 body.is-new[data-v="dvA"] .typo__badge { opacity: 1; transform: scale(1); }
@@ -311,7 +312,7 @@ body.show-announce[data-v="mvB"] #mAnnB { display: flex; }
 .arrowB--m { left: auto; right: 42px; top: 22px; }
 .m-editor { position: relative; }
 body.show-announce.is-new[data-v="dvB"] .editor > .arrowB,
-body.show-announce.is-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
+body.show-announce.is-new.more-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
 .arrowB__line { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawArrow 1s 0.3s ease-out forwards; }
 @keyframes drawArrow { to { stroke-dashoffset: 0; } }
 
@@ -365,8 +366,3 @@ body.is-new[data-v="dvA"] .typo__badge { pointer-events: auto; cursor: pointer; 
 /* закрытая шторка не должна ловить нажатия (подсказки внутри неё были pointer-events: auto) */
 .sheet:not(.is-open) * { pointer-events: none !important; }
 body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !important; }
-/* МВ: после первого открытия «⋯» точка перестаёт мигать, но остаётся до использования Типографа */
-body.is-new:not(.more-new)[data-v="mvA"] .m-dot,
-body.is-new:not(.more-new)[data-v="mvB"] .m-dot { animation: none; opacity: 1; }
-body.is-new:not(.more-new)[data-v="mvA"] .m-dot::after,
-body.is-new:not(.more-new)[data-v="mvB"] .m-dot::after { animation: none; opacity: 0; }
