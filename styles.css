@@ -116,14 +116,18 @@ img { display: block; }
 .switch i { display: block; width: 20px; height: 20px; border-radius: 50%; background: var(--clear); }
 
 /* ---------- Кнопка Типографа: состояния по вариантам ---------- */
-.typo { position: relative; display: flex; }
+.typo { position: relative; display: flex; isolation: isolate; } /* isolate — чтобы кольцо не уходило под фон редактора */
 .typo__btn { align-items: center; gap: 6px; transition: background 0.2s, padding 0.25s; }
 .typo__label, .typo__inline { display: none; }
 .typo__badge, .typo__dot, .typo__pulse { position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.25s, transform 0.25s; }
 /* бейдж на углу: counter 0.8 с белой обводкой 2 px */
 .typo__badge { right: -16px; top: -10px; padding: 1px 5px; font-size: 10px; line-height: 14px; box-shadow: 0 0 0 2px var(--clear); transform: scale(0.6); }
 .typo__dot { right: 2px; top: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 2px var(--clear); transform: scale(0.4); }
-.typo__pulse { left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; background: rgba(137, 204, 82, 0.28); z-index: -1; }
+.typo__pulse { left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; z-index: -1; }
+/* пульсирующее кольцо: две волны со сдвигом, зелёная обводка + заливка */
+.pulse-ring::before, .pulse-ring::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--green); background: rgba(137, 204, 82, 0.22); animation: ring 1.8s cubic-bezier(0.2, 0.6, 0.4, 1) infinite; }
+.pulse-ring::after { animation-delay: 0.9s; }
+@keyframes ring { 0% { transform: scale(0.85); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
 
 body.is-new[data-v="dv1"] .typo__btn,
 body.is-new[data-v="dv5"] .typo__btn,
@@ -136,7 +140,8 @@ body.is-new[data-v="dv3"] .typo__btn { padding-right: 6px; }
 body.is-new[data-v="dv4"] .typo__btn { background: var(--tint); padding: 4px 8px 4px 4px; }
 body.is-new[data-v="dv4"] .typo__label { display: inline; font-weight: 500; color: var(--label); }
 body.is-new[data-v="dv4"] .typo__inline { display: inline-flex; }
-body.coach-open .typo__pulse { opacity: 1; animation: pulse 1.6s ease-out infinite; }
+body.coach-open .typo__pulse { opacity: 1; }
+body.coach-open .typo__btn { background: var(--clear); box-shadow: 0 0 0 2px var(--green); }
 @keyframes pulse { 0% { transform: scale(0.7); opacity: 0.9; } 100% { transform: scale(1.5); opacity: 0; } }
 
 /* ДВ-6: строка-анонс */
@@ -228,7 +233,7 @@ body.is-new.item-new[data-v="mv6"] .nav-item__right { display: inline-flex; }
 /* МВ-4: онбординг с затемнением */
 .m-coach { position: absolute; inset: 0; z-index: 20; background: var(--overlay); display: none; }
 .m-coach.is-on { display: block; animation: pop 0.25s ease-out; }
-.m-coach__ring { position: absolute; width: 84px; height: 84px; border-radius: 50%; background: rgba(137, 204, 82, 0.3); animation: pulse 1.6s ease-out infinite; }
+.m-coach__ring { position: absolute; width: 40px; height: 40px; }
 .coach--m { display: flex; position: absolute; right: 16px; width: 294px; }
 .coach--m::before { top: -6px; }
 .m-hole { position: absolute; z-index: 21; pointer-events: none; }

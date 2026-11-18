@@ -147,7 +147,7 @@
     const ring = $(".m-coach__ring"), card = $(".coach--m");
     const pr = phone.getBoundingClientRect(), r = more.getBoundingClientRect();
     const cx = r.left - pr.left + r.width / 2, cy = r.top - pr.top + r.height / 2;
-    ring.style.left = cx - 30 + "px"; ring.style.top = cy - 30 + "px";
+    ring.style.left = cx - 20 + "px"; ring.style.top = cy - 20 + "px";
     card.style.top = r.bottom - pr.top + 14 + "px";
     card.style.setProperty("--arrow", Math.max(12, pr.width - 16 - cx - 6) + "px");
   }
