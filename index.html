@@ -20,14 +20,12 @@
       <b class="demo__title">Типограф · NEW <span>прототип</span></b>
       <!-- один блок: сверху вариант (открывает ДВ), под ним — версия ДВ/МВ этого варианта -->
       <div class="sw" aria-label="Выбор варианта">
-        <div class="sw__row sw__row--var" role="tablist" aria-label="Вариант">
-          <button data-var="A" type="button">Вариант 1</button><button data-var="B" type="button">Вариант 2</button>
-        </div>
         <div class="sw__row sw__row--view" role="tablist" aria-label="Версия">
           <button data-view="dv" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Десктоп</button><button data-view="mv" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Мобильная</button>
         </div>
       </div>
-      <button class="demo__reset" id="reset" type="button">↺ Показать NEW заново</button>
+      <button class="demo__reset demo__sample" id="sample" type="button">Вставить пример текста</button>
+      <button class="demo__reset" id="reset" type="button">↺ Начать заново</button>
     </div>
     <p class="demo__desc" id="desc"></p>
   </div>
@@ -100,17 +98,17 @@
           </div>
 
           <!-- Вариант 2 (ДВ): строка «Новое» + стрелка к мигающей точке -->
-          <div class="annB" id="annB">
+          <div class="annB-wrap" id="annBWrap"><div class="annB" id="annB">
             <button class="counter annB__new" id="annBNew" type="button">Новое</button>
             <span>Типограф поправит кавычки, тире и пробелы в один клик</span>
             <button class="announce__close" type="button" id="annBClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
-          </div>
+          </div></div>
           <svg class="arrowB" width="61" height="42" viewBox="0 0 61 42" fill="none" aria-hidden="true"><path class="arrowB__line" d="M7.85728 36.677C12.309 30.669 19.3397 28.2925 25.1965 30.361C38.6927 35.1274 42.2594 27.1921 41.7115 21.8659C40.2389 13.5144 47.3571 5.96976 52.4537 3.23457M51.0912 8.352C51.2066 6.65194 52.4537 3.23457 52.4537 3.23457C52.4537 3.23457 47.8878 3.6841 45.6959 3.87075" stroke="#78B247" stroke-width="2" stroke-miterlimit="16" stroke-linecap="round"/></svg>
 
           <div class="editor__body">
             <div class="editor__text">
-              <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок">Как я "починил" старый велосипед</h1>
-              <div class="editor__p" contenteditable="true" spellcheck="false" data-ph="Используйте Shift + Enter для перехода на новую строку без отступа">Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей , зато теперь катаюсь  каждый вечер.</div>
+              <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок"></h1>
+              <div class="editor__p" contenteditable="true" spellcheck="false" data-ph="Используйте Shift + Enter для перехода на новую строку без отступа"></div>
             </div>
             <div class="special">
               <span class="switch"><i></i></span>
@@ -217,16 +215,16 @@
           <button class="announce__close" type="button" id="mAnnounceClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
         </div>
         <!-- Вариант 2 (МВ): строка под тулбаром + стрелка к мигающей точке на «⋯» -->
-        <div class="annB annB--m" id="mAnnB">
+        <div class="annB-wrap" id="mAnnBWrap"><div class="annB annB--m" id="mAnnB">
           <img class="annB__wand" src="assets/m-wand.svg" alt="">
           <span>Типограф поправит кавычки, тире и пробелы в один клик</span>
           <button class="announce__close" type="button" id="mAnnBClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
-        </div>
+        </div></div>
         <svg class="arrowB arrowB--m" width="65" height="39" viewBox="0 0 65 39" fill="none" aria-hidden="true"><path class="arrowB__line" d="M6.2793 37C11.7568 31.1983 20.1766 25.7096 26.12 28.6428C39.8157 35.402 44.5995 27.4462 44.6935 21.7336C44.1909 12.6986 52.688 5.60645 58.4343 3.3539M56.3426 8.60331C56.6803 6.81671 58.4343 3.3539 58.4343 3.3539C58.4343 3.3539 53.5398 3.25199 51.1938 3.17217" stroke="#78B247" stroke-width="2" stroke-miterlimit="16" stroke-linecap="round"/></svg>
         <div class="m-editor__body">
           <div class="m-editor__text">
-            <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок">Как я "починил" старый велосипед</h1>
-            <div class="editor__p m-p" contenteditable="true" spellcheck="false" data-ph="Текст нового поста...">Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей.</div>
+            <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок"></h1>
+            <div class="editor__p m-p" contenteditable="true" spellcheck="false" data-ph="Текст нового поста..."></div>
           </div>
           <span class="m-plus"><img src="assets/plus-s.svg" alt="" width="16" height="16"></span>
           <div class="special">

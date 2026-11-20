@@ -8,8 +8,8 @@
   const DESC = {
     dvA: "<b>Вариант 1 · ДВ.</b> Плашка «Новое» на углу палочки. Наведите на палочку — через полсекунды появится подсказка. Нажмите — Типограф поправит текст, плашка исчезнет.",
     mvA: "<b>Вариант 1 · МВ.</b> Мигающая точка на «⋯». Откройте меню: «Типограф» внизу списка, «Новое» сразу после названия, справа «?» — по тапу на него подсказка. Точка мигает до первого тапа по «⋯», после — пропадает.",
-    dvB: "<b>Вариант 2 · ДВ.</b> Строка «Новое» под тулбаром и стрелка к мигающей точке на палочке. Нажмите «Новое» — появится подсказка. Крестик прячет строку вместе с точкой.",
-    mvB: "<b>Вариант 2 · МВ.</b> Строка под тулбаром и стрелка к мигающей точке на «⋯». В меню «Типограф» внизу, «Новое» после названия, по тапу на «?» — подсказка. Крестик прячет строку вместе с точкой.",
+    dvB: "<b>Десктоп.</b> Редактор открывается пустым, кнопки тулбара неактивны. Начните писать (или «Вставить пример текста») — кнопки станут активными, а после паузы в наборе под тулбаром плавно выедет строка «Новое» и стрелка к мигающей точке на палочке. Нажмите «Новое» — появится подсказка. Крестик прячет строку вместе с точкой.",
+    mvB: "<b>Мобильная.</b> Редактор открывается пустым, кнопки неактивны. Начните писать — после паузы в наборе под тулбаром плавно выедет строка и стрелка к мигающей точке на «⋯». В меню «Типограф» внизу, «Новое» после названия, по тапу на «?» — подсказка. Крестик прячет строку вместе с точкой.",
     dv1: "<b>ДВ-1 · Бейдж NEW на углу иконки (рекомендую).</b> Плашка сидит на углу палочки, кнопка подсвечена. Нажмите на палочку — текст поправится, бейдж исчезнет навсегда.",
     dv2: "<b>ДВ-2 · Точка + тултип.</b> На иконке только зелёная точка, слово NEW и пояснение — в тултипе при наведении (через 0,5 с, как в библиотеке).",
     dv3: "<b>ДВ-3 · NEW рядом с иконкой.</b> Плашка стоит в строку справа от палочки и входит в кнопку. После первого нажатия тулбар возвращается к обычной ширине.",
@@ -30,7 +30,7 @@
     set(k) { try { localStorage.setItem("tn:" + k, "1"); } catch {} },
     clear() { try { Object.keys(localStorage).filter((k) => k.startsWith("tn:")).forEach((k) => localStorage.removeItem(k)); } catch {} },
   };
-  let v = "dvA";
+  let v = "dvB";
   const AB = () => ["dvA", "mvA", "dvB", "mvB"].includes(v);
   const key = (name) => `${v}:${name}`;
 
@@ -191,13 +191,35 @@
   function render() {
     const used = store.get(key("used"));
     body.classList.toggle("is-new", !used);
-    body.classList.toggle("show-announce", (v === "dv6" || v === "mv6" || v === "dvB" || v === "mvB") && !used && !store.get(key("announce")));
+    const showAnn = (v === "dvB" || v === "mvB") && hintReady && !used && !store.get(key("announce"));
+    if (showAnn) { const w = $(v === "dvB" ? "#annBWrap" : "#mAnnBWrap"); w.style.setProperty("--annH", w.firstElementChild.offsetHeight + "px"); }
+    body.classList.toggle("show-announce", showAnn);
     body.classList.toggle("more-new", !store.get(key("more")));
     body.classList.toggle("item-new", !used);
     body.classList.toggle("ann-closed", store.get(key("announce")));
   }
+  // ---------- ввод текста: кнопки активны только когда в посте есть текст ----------
+  // Подсказка о Типографе появляется не сразу, а когда человек начал писать и сделал паузу в наборе.
+  let hintReady = false, typeT;
+  const scopeEl = () => $(v === "dvB" ? "#editor" : ".m-editor");
+  const hasText = () => $$("[contenteditable]", scopeEl()).some((el) => el.textContent.trim());
+  function syncText() {
+    const t = hasText();
+    body.classList.toggle("no-text", !t);
+    clearTimeout(typeT);
+    if (t && !hintReady) typeT = setTimeout(() => { hintReady = true; render(); }, 900);
+  }
+  $$("[contenteditable]").forEach((el) => el.addEventListener("input", syncText));
+  const SAMPLE_T = 'Как я "починил" старый велосипед';
+  const SAMPLE_P = 'Всё началось в субботу - я нашёл в гараже свой первый велосипед . Цепь ржавая , колёса спущены...  Но я решил: "Сделаю за выходные!" В итоге ушло 3-4 дня и около 2000 рублей , зато теперь катаюсь  каждый вечер.';
+  function clearText() { $$("[contenteditable]").forEach((el) => (el.textContent = "")); hintReady = false; clearTimeout(typeT); }
+  $("#sample").addEventListener("click", () => {
+    const sc = scopeEl(); $(".editor__title", sc).textContent = SAMPLE_T; $(".editor__p", sc).textContent = SAMPLE_P; syncText();
+  });
+
   function start(next) {
-    v = DESC[next] ? next : "dvA";
+    if (!DESC[next] || !/B$/.test(next)) next = next && next.startsWith("mv") ? "mvB" : "dvB";
+    v = next;
     body.dataset.v = v;
     $$("[data-var]").forEach((b) => b.classList.toggle("is-on", v.endsWith(b.dataset.var)));
     $$("[data-view]").forEach((b) => b.classList.toggle("is-on", v.startsWith(b.dataset.view)));
@@ -211,6 +233,7 @@
     $("#rowTip").classList.remove("is-on");
     hideTip(); closeSheet(); clearTimeout(snackT1); clearTimeout(snackT2); snack.classList.remove("is-on");
     body.classList.remove("coach-open"); $("#mCoach").classList.remove("is-on"); phone.classList.remove("coach-on");
+    clearText(); syncText();
     render();
     const used = store.get(key("used"));
     if (v === "dv5" && !used && !store.get(key("coach"))) setTimeout(() => { placeCoach(); body.classList.add("coach-open"); }, 600);
@@ -222,12 +245,12 @@
   const go = (next) => { history.replaceState(null, "", "#" + next); start(next); };
   // выбор варианта всегда открывает ДВ; ДВ/МВ переключает версию текущего варианта
   $$("[data-var]").forEach((b) => b.addEventListener("click", () => go("dv" + b.dataset.var)));
-  $$("[data-view]").forEach((b) => b.addEventListener("click", () => go(b.dataset.view + (v.endsWith("B") ? "B" : "A"))));
-  $("#reset").addEventListener("click", () => { store.clear(); start(v); toast("Плашки NEW снова на месте"); });
+  $$("[data-view]").forEach((b) => b.addEventListener("click", () => go(b.dataset.view + "B")));
+  $("#reset").addEventListener("click", () => { store.clear(); start(v); toast("Редактор снова пустой — начните писать"); });
   addEventListener("resize", () => { document.documentElement.style.setProperty("--demo-h", $(".demo").offsetHeight + "px"); if (body.classList.contains("coach-open")) placeCoach(); });
 
   addEventListener("hashchange", () => start(location.hash.slice(1)));
   $("#desc").addEventListener("click", (e) => { e.currentTarget.classList.toggle("is-open"); document.documentElement.style.setProperty("--demo-h", $(".demo").offsetHeight + "px"); });
-  const initial = location.hash.slice(1) || (matchMedia("(max-width: 700px)").matches ? "mvA" : "dvA");
+  const initial = location.hash.slice(1) || (matchMedia("(max-width: 700px)").matches ? "mvB" : "dvB");
   start(initial);
 })();
