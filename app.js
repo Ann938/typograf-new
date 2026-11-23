@@ -8,7 +8,7 @@
   const DESC = {
     dvA: "<b>Вариант 1 · ДВ.</b> Плашка «Новое» на углу палочки. Наведите на палочку — через полсекунды появится подсказка. Нажмите — Типограф поправит текст, плашка исчезнет.",
     mvA: "<b>Вариант 1 · МВ.</b> Мигающая точка на «⋯». Откройте меню: «Типограф» внизу списка, «Новое» сразу после названия, справа «?» — по тапу на него подсказка. Точка мигает до первого тапа по «⋯», после — пропадает.",
-    dvB: "<b>Десктоп.</b> Редактор пустой, кнопки неактивны. С первым символом в поле текста (не в заголовке) выезжает строка «Новое» и стрелка к точке на палочке. Нажмите палочку: без выделения Типограф правит весь текст, с выделением — только фрагмент. Есть правки — появится «Текст отформатирован. Отменить» (при наведении таймер на паузе), правок нет — «В тексте всё в порядке» на 3 с. Нажмите «Опубликовать пост», пока висит отмена, — ниже появятся замеры. Время и вид отмены переключаются в панели.",
+    dvB: "<b>Десктоп.</b> Редактор пустой, кнопки неактивны. С первым символом в поле текста (не в заголовке) выезжает строка «Новое» и стрелка к точке на палочке. Нажмите палочку: без выделения Типограф правит весь текст, с выделением — только фрагмент. Есть правки — появится тост «Текст отформатирован. Отменить» на 5 с (при наведении таймер на паузе), правок нет — «В тексте всё в порядке» на 3 с. Нажмите «Опубликовать пост», пока висит отмена, — ниже появятся замеры.",
     mvB: "<b>Мобильная.</b> С первым символом в поле текста выезжает строка «Новое» и стрелка к точке на «⋯». Типограф — в меню «⋯». Есть правки — тост «Текст отформатирован. Отменить» под шапкой, правок нет — «В тексте всё в порядке» на 3 с. Кнопка «Опубликовать пост» внизу формы: успеете ли долистать до неё и передумать, пока висит отмена? Замеры — ниже в панели.",
     dv1: "<b>ДВ-1 · Бейдж NEW на углу иконки (рекомендую).</b> Плашка сидит на углу палочки, кнопка подсвечена. Нажмите на палочку — текст поправится, бейдж исчезнет навсегда.",
     dv2: "<b>ДВ-2 · Точка + тултип.</b> На иконке только зелёная точка, слово NEW и пояснение — в тултипе при наведении (через 0,5 с, как в библиотеке).",
@@ -207,19 +207,19 @@
   }
 
   // ---------- отмена Типографа: тост или плашка, время на отмену задаётся в панели ----------
-  // Сценарии — страница Design (48:2445): тост 7 с, при наведении пауза, «Отменить» возвращает текст до последнего запуска.
-  const S = { t: 7, kind: "toast", bar: false };
+  // Итоговые макеты — раздел «Типограф» (212:15373): тост 5 с, при наведении пауза, «Отменить» возвращает текст до последнего запуска.
+  const S = { t: 5, kind: "toast" }; // итог: тост с отменой висит 5 с (макет 212:15373)
   const pt = $("#ptoast");
   const fmt = (ms) => (ms / 1000).toFixed(1).replace(".", ",");
   let undo = null, lastApplied = 0, infoT, raf;
   const isMv = () => v.startsWith("mv");
   function placeToast() {
-    if (isMv()) { if (pt.parentElement !== phone) phone.append(pt); pt.classList.add("is-mv"); pt.style.left = pt.style.top = ""; return; }
+    if (isMv()) { if (pt.parentElement !== phone) phone.append(pt); pt.classList.add("is-mv"); pt.style.top = ""; return; }
     if (pt.parentElement !== body) body.append(pt);
     pt.classList.remove("is-mv");
-    const er = $("#editor").getBoundingClientRect(), hr = $(".pk-header").getBoundingClientRect();
+    // ДВ: во всю ширину окна с полями 24, на 12 ниже шапки (макет 221:5524)
+    const hr = $(".pk-header").getBoundingClientRect();
     pt.style.top = Math.max($(".demo").offsetHeight + 12, hr.bottom + 12) + "px";
-    pt.style.left = Math.round(er.left + er.width / 2 - pt.offsetWidth / 2) + "px";
   }
   function showInfo(msg) {
     clearTimeout(infoT);
@@ -310,17 +310,6 @@
   function hidePublished() { $$(".published").forEach((p) => (p.hidden = true)); body.classList.remove("is-published"); }
   $$(".js-back").forEach((b) => b.addEventListener("click", hidePublished));
 
-  // ---------- настройки отмены в панели ----------
-  function syncSettings() {
-    $$("#undoTime button").forEach((b) => b.classList.toggle("is-on", +b.dataset.t === S.t));
-    $$("#undoKind button").forEach((b) => b.classList.toggle("is-on", b.dataset.k === S.kind));
-    $("#undoBar button").classList.toggle("is-on", S.bar);
-    body.classList.toggle("show-bar", S.bar);
-  }
-  $$("#undoTime button").forEach((b) => b.addEventListener("click", () => { S.t = +b.dataset.t; endUndo("reset"); syncSettings(); }));
-  $$("#undoKind button").forEach((b) => b.addEventListener("click", () => { S.kind = b.dataset.k; endUndo("reset"); syncSettings(); }));
-  $("#undoBar button").addEventListener("click", () => { S.bar = !S.bar; syncSettings(); });
-  syncSettings();
 
   // ---------- рендер состояния ----------
   let snackT1, snackT2;

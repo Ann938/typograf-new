@@ -392,20 +392,20 @@ body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !impo
 .demo__log ol { margin: 0 0 0 18px; max-height: 40px; overflow-y: auto; flex: 1; }
 
 /* тост: toast/accent из макета — #78b247, радиус 16, отступы 8/16, текст 14/24 */
-.ptoast { position: fixed; z-index: 60; display: flex; align-items: center; gap: 12px; height: 40px; padding: 8px 16px; border-radius: 16px; background: var(--green-dark); color: var(--clear); font-size: 14px; line-height: 24px; white-space: nowrap; overflow: hidden; opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+/* ДВ: во всю ширину окна с полями 24, контент по центру, без крестика (макет 221:5524) */
+.ptoast { position: fixed; left: 24px; right: 24px; justify-content: center; z-index: 60; display: flex; align-items: center; gap: 12px; height: 40px; padding: 8px 16px; border-radius: 16px; background: var(--green-dark); color: var(--clear); font-size: 14px; line-height: 24px; white-space: nowrap; overflow: hidden; opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
 .ptoast.is-on { opacity: 1; transform: none; pointer-events: auto; }
 .ptoast.is-mv { z-index: 20; position: absolute; left: 12px; right: 12px; top: 68px; justify-content: space-between; }
-.ptoast__t { flex: 1; }
-.ptoast__undo, .palert__undo { display: inline-flex; align-items: center; gap: 8px; }
-.ptoast__undo:hover { text-decoration: underline; }
+.ptoast.is-mv .ptoast__t { flex: 1; }
+.ptoast:not(.is-mv) .ptoast__x { display: none; }
+/* «Отменить»: токены как у крестика тоста — белый 56 % / наведение 64 % / нажатие 72 % */
+.ptoast__undo { display: inline-flex; align-items: center; gap: 4px; color: rgba(255, 255, 255, 0.56); transition: color 0.15s; }
+.ptoast__undo:hover { color: rgba(255, 255, 255, 0.64); }
+.ptoast__undo:active { color: rgba(255, 255, 255, 0.72); }
 .ptoast__x { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; }
 .ptoast__x:hover { background: rgba(255, 255, 255, 0.16); }
 .ptoast:not(.has-undo) .ptoast__undo, .ptoast:not(.has-undo) .ptoast__x { display: none; }
 .ptoast:not(.has-undo) .ptoast__t { text-align: center; }
-/* полоска оставшегося времени — включается в панели прототипа */
-.ubar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: rgba(255, 255, 255, 0.7); transform-origin: left; transform: scaleX(calc(1 - var(--left, 1))); /* заполняется слева направо по мере того, как уходит время */ display: none; }
-body.show-bar .has-undo .ubar, body.show-bar .palert .ubar { display: block; }
-.palert .ubar { background: var(--green); }
 
 /* плашка в редакторе: alert из макета — #f4ffeb, обводка #97d962, радиус 12 */
 .palert { padding: 12px 24px 0; }
