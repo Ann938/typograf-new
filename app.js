@@ -317,7 +317,7 @@
     const used = store.get(key("used"));
     body.classList.toggle("is-new", !used);
     const showAnn = (v === "dvB" || v === "mvB") && hintReady && !used && !store.get(key("announce"));
-    if (showAnn) { const w = $(v === "dvB" ? "#annBWrap" : "#mAnnBWrap"); w.style.setProperty("--annH", w.firstElementChild.offsetHeight + "px"); }
+    if (showAnn) { const w = $(v === "dvB" ? "#annBWrap" : "#mAnnBWrap"); w.style.setProperty("--annH", w.firstElementChild.offsetHeight + 8 + "px"); } // +8 — отступ карточки от тулбара
     body.classList.toggle("show-announce", showAnn);
     body.classList.toggle("more-new", !store.get(key("more")));
     body.classList.toggle("item-new", !used);

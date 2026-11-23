@@ -288,7 +288,7 @@ body.is-new .blink-dot { opacity: 1; animation: blinkDot 1.4s ease-in-out infini
 body.is-new .blink-dot::after { animation: blinkRing 1.4s ease-out infinite; }
 @keyframes blinkDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.8); } }
 @keyframes blinkRing { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.6); opacity: 0; } }
-.typo__blink { display: none; right: -2px; top: -2px; }
+.typo__blink { display: none; right: 0; top: 0; }
 body.is-new[data-v="dvB"] .typo__blink { display: block; }
 .m-dot { display: none; right: 0; top: 0; }
 /* точка на «⋯» живёт, пока Типографом не воспользовались (как и «Новое» в меню) */
@@ -308,9 +308,11 @@ body.is-new[data-v="dvA"] .typo__badge { right: -22px; }
 body.show-announce .annB-wrap { height: var(--annH, 40px); }
 .annB { display: flex; opacity: 0; transform: translateY(-8px); transition: opacity 0.35s ease-out, transform 0.45s cubic-bezier(0.22, 0.8, 0.24, 1); }
 body.show-announce .annB { opacity: 1; transform: none; transition-delay: 0.12s; }
-.annB { align-items: center; gap: 8px; padding: 8px 16px 8px 24px; background: #f4ffeb; color: var(--muted); }
+/* editorAlert из итогового макета (221:5905 / 221:5911): карточка #f4ffeb, обводка 1px #97d962, радиус 12,
+   отступы 8/16, промежуток 8, на 8 px ниже линии тулбара и по ширине тулбара */
+.annB { align-items: center; gap: 8px; margin: 8px 24px 0; padding: 8px 16px; border: 1px solid #97d962; border-radius: 12px; background: #f4ffeb; color: #45474d; font-size: 14px; line-height: 24px; }
 .annB span { flex: 1; }
-.annB--m { padding: 8px 8px 8px 16px; gap: 12px; font-size: 14px; line-height: 24px; }
+.annB--m { margin: 8px 16px 0; align-items: flex-start; }
 .annB__wand { width: 24px; height: 24px; filter: invert(62%) sepia(46%) saturate(560%) hue-rotate(48deg) brightness(92%); }
 body[data-v="dvB"] #mAnnBWrap, body[data-v="mvB"] #annBWrap { display: none; }
 
@@ -325,7 +327,7 @@ body[data-v="dvB"]:not(.show-announce) .typo__blink,
 body[data-v="mvB"]:not(.show-announce) .m-dot { display: none !important; }
 @media (max-width: 700px) { .demo__sample::before { content: "Aa" !important; font-size: 13px !important; } }
 .arrowB { display: none; position: absolute; left: 491px; top: 43px; pointer-events: none; z-index: 3; }
-.arrowB--m { left: auto; right: 42px; top: 22px; }
+.arrowB--m { left: auto; right: 47px; top: 31px; }
 .m-editor { position: relative; }
 body.show-announce.is-new[data-v="dvB"] .editor > .arrowB,
 body.show-announce.is-new.more-new[data-v="mvB"] .m-editor > .arrowB { display: block; }
