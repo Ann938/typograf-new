@@ -399,7 +399,7 @@ body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !impo
 .ptoast.is-on { opacity: 1; transform: none; pointer-events: auto; }
 .ptoast.is-mv { z-index: 20; position: absolute; left: 12px; right: 12px; top: 68px; justify-content: space-between; }
 .ptoast.is-mv .ptoast__t { flex: 1; }
-.ptoast:not(.is-mv) .ptoast__x { display: none; }
+.ptoast__x { display: none !important; } /* крестика у тоста нет ни на ДВ, ни на МВ — только «Отменить» */
 /* «Отменить»: токены как у крестика тоста — белый 56 % / наведение 64 % / нажатие 72 % */
 .ptoast__undo { display: inline-flex; align-items: center; gap: 4px; color: rgba(255, 255, 255, 0.56); transition: color 0.15s; }
 .ptoast__undo:hover { color: rgba(255, 255, 255, 0.64); }
