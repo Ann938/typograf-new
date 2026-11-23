@@ -403,7 +403,7 @@ body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !impo
 .ptoast:not(.has-undo) .ptoast__undo, .ptoast:not(.has-undo) .ptoast__x { display: none; }
 .ptoast:not(.has-undo) .ptoast__t { text-align: center; }
 /* полоска оставшегося времени — включается в панели прототипа */
-.ubar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: rgba(255, 255, 255, 0.7); transform-origin: left; transform: scaleX(var(--left, 1)); display: none; }
+.ubar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: rgba(255, 255, 255, 0.7); transform-origin: left; transform: scaleX(calc(1 - var(--left, 1))); /* заполняется слева направо по мере того, как уходит время */ display: none; }
 body.show-bar .has-undo .ubar, body.show-bar .palert .ubar { display: block; }
 .palert .ubar { background: var(--green); }
 
