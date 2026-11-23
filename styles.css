@@ -382,3 +382,65 @@ body.is-new[data-v="dvA"] .typo__badge { pointer-events: auto; cursor: pointer; 
 /* закрытая шторка не должна ловить нажатия (подсказки внутри неё были pointer-events: auto) */
 .sheet:not(.is-open) * { pointer-events: none !important; }
 body[data-v="mvA"] #sheetTip, body[data-v="mvB"] #sheetTip { display: none !important; }
+
+/* ===== Отмена Типографа и публикация (сценарии со страницы Design 48:2445) ===== */
+.demo__row--undo { margin-top: 8px; gap: 8px; }
+.demo__group button.is-on { background: var(--green); color: #1f2021; }
+.demo__log { margin-top: 8px; font-size: 13px; line-height: 20px; color: rgba(252, 253, 255, 0.72); }
+.demo__log b { color: #fcfdff; font-weight: 500; }
+.demo__log { display: flex; gap: 12px; align-items: flex-start; }
+.demo__log ol { margin: 0 0 0 18px; max-height: 40px; overflow-y: auto; flex: 1; }
+
+/* тост: toast/accent из макета — #78b247, радиус 16, отступы 8/16, текст 14/24 */
+.ptoast { position: fixed; z-index: 60; display: flex; align-items: center; gap: 12px; height: 40px; padding: 8px 16px; border-radius: 16px; background: var(--green-dark); color: var(--clear); font-size: 14px; line-height: 24px; white-space: nowrap; overflow: hidden; opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+.ptoast.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.ptoast.is-mv { z-index: 20; position: absolute; left: 12px; right: 12px; top: 68px; justify-content: space-between; }
+.ptoast__t { flex: 1; }
+.ptoast__undo, .palert__undo { display: inline-flex; align-items: center; gap: 8px; }
+.ptoast__undo:hover { text-decoration: underline; }
+.ptoast__x { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; }
+.ptoast__x:hover { background: rgba(255, 255, 255, 0.16); }
+.ptoast:not(.has-undo) .ptoast__undo, .ptoast:not(.has-undo) .ptoast__x { display: none; }
+.ptoast:not(.has-undo) .ptoast__t { text-align: center; }
+/* полоска оставшегося времени — включается в панели прототипа */
+.ubar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: rgba(255, 255, 255, 0.7); transform-origin: left; transform: scaleX(var(--left, 1)); display: none; }
+body.show-bar .has-undo .ubar, body.show-bar .palert .ubar { display: block; }
+.palert .ubar { background: var(--green); }
+
+/* плашка в редакторе: alert из макета — #f4ffeb, обводка #97d962, радиус 12 */
+.palert { padding: 12px 24px 0; }
+.m-editor .palert { padding: 8px 16px 0; }
+.palert__in { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 16px 24px; border: 1px solid #97d962; border-radius: 12px; background: #f4ffeb; }
+.palert__t { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--ink); }
+.palert__undo { grid-row: 2; justify-self: start; height: 32px; padding: 8px 16px; border-radius: 12px; background: var(--green); color: var(--clear); font-size: 13px; line-height: 16px; font-weight: 500; }
+.palert__undo:hover { filter: brightness(0.96); }
+.palert__x { grid-row: 1; grid-column: 2; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; }
+.palert__x img { width: 16px; height: 16px; }
+.palert.is-in .palert__in { animation: palertIn 0.25s cubic-bezier(0.22, 0.8, 0.24, 1); }
+@keyframes palertIn { from { opacity: 0; transform: translateY(-6px); } }
+
+/* кнопка «Опубликовать» неактивна, пока в поле текста пусто */
+body.no-body .js-pub { opacity: 0.64; pointer-events: none; }
+
+/* экран «пост опубликован» */
+.published { padding: 24px 24px 80px; }
+.published__in { max-width: 700px; margin: 0 auto; display: grid; gap: 16px; justify-items: start; }
+.published__ok { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; color: var(--ink); }
+.published__post { width: 100%; background: var(--clear); border-radius: var(--r-outer); box-shadow: var(--shadow); padding: 24px; }
+.published__title { font-size: 24px; line-height: 32px; font-weight: 500; color: var(--ink); margin-bottom: 12px; }
+.published__text { white-space: pre-wrap; font-size: 15px; line-height: 24px; }
+.published__note { font-size: 13px; line-height: 20px; color: var(--secondary); }
+body.is-published .dv .pk-grid { display: none; }
+.phone .published { position: absolute; inset: 0; z-index: 25; overflow-y: auto; background: var(--bg); padding: 24px 12px; }
+.phone .published__post { padding: 16px; }
+.phone .published__title { font-size: 20px; line-height: 28px; }
+/* панель прототипа на телефоне: настройки отмены в одну компактную ленту без горизонтальной прокрутки */
+@media (max-width: 700px) {
+  .demo__row--undo { gap: 6px; }
+  .demo__row--undo .demo__group { flex-wrap: wrap; max-width: 100%; padding: 3px; }
+  .demo__row--undo .demo__group button { height: 28px; padding: 0 8px; font-size: 12px; }
+  .demo__row--undo .demo__label { width: 100%; padding: 2px 6px; font-size: 11px; }
+  #undoBar .demo__label { display: none; }
+  .demo__log { font-size: 12px; line-height: 18px; }
+  .demo__log ol { max-height: 36px; }
+}

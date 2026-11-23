@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.svg">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -27,7 +27,14 @@
       <button class="demo__reset demo__sample" id="sample" type="button">Вставить пример текста</button>
       <button class="demo__reset" id="reset" type="button">↺ Начать заново</button>
     </div>
+    <!-- настройки отмены: сравниваем, сколько времени хватает, чтобы успеть нажать «Отменить» -->
+    <div class="demo__row demo__row--undo">
+      <div class="demo__group" id="undoTime"><span class="demo__label">Время на отмену</span><button data-t="3" type="button">3 с</button><button data-t="5" type="button">5 с</button><button data-t="7" type="button">7 с</button><button data-t="10" type="button">10 с</button><button data-t="0" type="button">Пока не закроют</button></div>
+      <div class="demo__group" id="undoKind"><span class="demo__label">Вид</span><button data-k="toast" type="button">Тост</button><button data-k="alert" type="button">Плашка в редакторе</button></div>
+      <div class="demo__group" id="undoBar"><button data-b="1" type="button">Полоска времени</button></div>
+    </div>
     <p class="demo__desc" id="desc"></p>
+    <div class="demo__log" id="log" hidden><b>Замеры</b><ol id="logList"></ol></div>
   </div>
 </div>
 
@@ -105,6 +112,7 @@
           </div></div>
           <svg class="arrowB" width="61" height="42" viewBox="0 0 61 42" fill="none" aria-hidden="true"><path class="arrowB__line" d="M7.85728 36.677C12.309 30.669 19.3397 28.2925 25.1965 30.361C38.6927 35.1274 42.2594 27.1921 41.7115 21.8659C40.2389 13.5144 47.3571 5.96976 52.4537 3.23457M51.0912 8.352C51.2066 6.65194 52.4537 3.23457 52.4537 3.23457C52.4537 3.23457 47.8878 3.6841 45.6959 3.87075" stroke="#78B247" stroke-width="2" stroke-miterlimit="16" stroke-linecap="round"/></svg>
 
+          <div class="palert" hidden><div class="palert__in"><b class="palert__t">Текст отформатирован.</b><button class="palert__undo js-undo" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3 2.5 6l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6h6.5a3.5 3.5 0 0 1 0 7H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Отменить</button><button class="palert__x js-undo-x" type="button" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button><i class="ubar"></i></div></div>
           <div class="editor__body">
             <div class="editor__text">
               <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок"></h1>
@@ -161,13 +169,19 @@
       <aside class="pk-aside">
         <div class="block block--btns">
           <div class="btns">
-            <button class="btn btn--primary is-disabled" type="button">Опубликовать пост</button>
+            <button class="btn btn--primary js-pub" type="button">Опубликовать пост</button>
             <button class="btn btn--outline" type="button">Предпросмотр</button>
           </div>
           <div class="split is-disabled"><span>Сохранить черновик</span><i><img src="assets/bin.svg" alt=""></i></div>
         </div>
       </aside>
     </main>
+    <div class="published" hidden><div class="published__in">
+  <div class="published__ok"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#78b247"/><path d="m6 10.2 2.6 2.6L14 7.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Пост опубликован</div>
+  <article class="published__post"><h1 class="published__title"></h1><div class="published__text"></div></article>
+  <p class="published__note"></p>
+  <button class="btn btn--outline js-back" type="button">← Вернуться к редактору</button>
+</div></div>
   </div>
 </div>
 
@@ -221,6 +235,7 @@
           <button class="announce__close" type="button" id="mAnnBClose" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button>
         </div></div>
         <svg class="arrowB arrowB--m" width="65" height="39" viewBox="0 0 65 39" fill="none" aria-hidden="true"><path class="arrowB__line" d="M6.2793 37C11.7568 31.1983 20.1766 25.7096 26.12 28.6428C39.8157 35.402 44.5995 27.4462 44.6935 21.7336C44.1909 12.6986 52.688 5.60645 58.4343 3.3539M56.3426 8.60331C56.6803 6.81671 58.4343 3.3539 58.4343 3.3539C58.4343 3.3539 53.5398 3.25199 51.1938 3.17217" stroke="#78B247" stroke-width="2" stroke-miterlimit="16" stroke-linecap="round"/></svg>
+        <div class="palert" hidden><div class="palert__in"><b class="palert__t">Текст отформатирован.</b><button class="palert__undo js-undo" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3 2.5 6l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6h6.5a3.5 3.5 0 0 1 0 7H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Отменить</button><button class="palert__x js-undo-x" type="button" aria-label="Закрыть"><img src="assets/close.svg" alt=""></button><i class="ubar"></i></div></div>
         <div class="m-editor__body">
           <div class="m-editor__text">
             <h1 class="editor__title" contenteditable="true" spellcheck="false" data-ph="Заголовок"></h1>
@@ -260,13 +275,19 @@
       </section>
       <section class="m-block">
         <div class="btns">
-          <button class="btn btn--primary is-disabled" type="button">Опубликовать пост</button>
+          <button class="btn btn--primary js-pub" type="button">Опубликовать пост</button>
           <button class="btn btn--outline" type="button">Предпросмотр</button>
         </div>
         <div class="split is-disabled"><span>Сохранить черновик</span><i><img src="assets/bin.svg" alt=""></i></div>
       </section>
     </div>
 
+    <div class="published" hidden><div class="published__in">
+  <div class="published__ok"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#78b247"/><path d="m6 10.2 2.6 2.6L14 7.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Пост опубликован</div>
+  <article class="published__post"><h1 class="published__title"></h1><div class="published__text"></div></article>
+  <p class="published__note"></p>
+  <button class="btn btn--outline js-back" type="button">← Вернуться к редактору</button>
+</div></div>
     <div class="m-snack" id="snack"><i class="counter">NEW</i><span>Типограф поправит кавычки и тире</span><button type="button" id="snackOpen">Открыть</button></div>
 
     <!-- шторка «⋯» (popup platform=mv) -->
@@ -303,7 +324,9 @@
 </div>
 
 <div class="toast" id="toast" role="status"></div>
+<div class="ptoast" id="ptoast" role="status"><span class="ptoast__t"></span><button class="ptoast__undo js-undo" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3 2.5 6l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6h6.5a3.5 3.5 0 0 1 0 7H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Отменить</button><button class="ptoast__x js-undo-x" type="button" aria-label="Закрыть"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" stroke="#fff" stroke-opacity=".56" stroke-width="1.5" stroke-linecap="round"/></svg></button><i class="ubar"></i></div>
 
-<script src="app.js?v=3"></script>
+
+<script src="app.js?v=4"></script>
 </body>
 </html>

@@ -8,8 +8,8 @@
   const DESC = {
     dvA: "<b>Вариант 1 · ДВ.</b> Плашка «Новое» на углу палочки. Наведите на палочку — через полсекунды появится подсказка. Нажмите — Типограф поправит текст, плашка исчезнет.",
     mvA: "<b>Вариант 1 · МВ.</b> Мигающая точка на «⋯». Откройте меню: «Типограф» внизу списка, «Новое» сразу после названия, справа «?» — по тапу на него подсказка. Точка мигает до первого тапа по «⋯», после — пропадает.",
-    dvB: "<b>Десктоп.</b> Редактор открывается пустым, кнопки тулбара неактивны. Начните писать (или «Вставить пример текста») — кнопки станут активными, а когда напишете текст поста (не заголовок) и сделаете паузу, под тулбаром плавно выедет строка «Новое» и стрелка к мигающей точке на палочке. Нажмите «Новое» — появится подсказка. Крестик прячет строку вместе с точкой.",
-    mvB: "<b>Мобильная.</b> Редактор открывается пустым, кнопки неактивны. Начните писать текст поста — после паузы в наборе под тулбаром плавно выедет строка и стрелка к мигающей точке на «⋯». В меню «Типограф» внизу, «Новое» после названия, по тапу на «?» — подсказка. Крестик прячет строку вместе с точкой.",
+    dvB: "<b>Десктоп.</b> Редактор пустой, кнопки неактивны. С первым символом в поле текста (не в заголовке) выезжает строка «Новое» и стрелка к точке на палочке. Нажмите палочку: без выделения Типограф правит весь текст, с выделением — только фрагмент. Есть правки — появится «Текст отформатирован. Отменить» (при наведении таймер на паузе), правок нет — «В тексте всё в порядке» на 3 с. Нажмите «Опубликовать пост», пока висит отмена, — ниже появятся замеры. Время и вид отмены переключаются в панели.",
+    mvB: "<b>Мобильная.</b> С первым символом в поле текста выезжает строка «Новое» и стрелка к точке на «⋯». Типограф — в меню «⋯». Есть правки — тост «Текст отформатирован. Отменить» под шапкой, правок нет — «В тексте всё в порядке» на 3 с. Кнопка «Опубликовать пост» внизу формы: успеете ли долистать до неё и передумать, пока висит отмена? Замеры — ниже в панели.",
     dv1: "<b>ДВ-1 · Бейдж NEW на углу иконки (рекомендую).</b> Плашка сидит на углу палочки, кнопка подсвечена. Нажмите на палочку — текст поправится, бейдж исчезнет навсегда.",
     dv2: "<b>ДВ-2 · Точка + тултип.</b> На иконке только зелёная точка, слово NEW и пояснение — в тултипе при наведении (через 0,5 с, как в библиотеке).",
     dv3: "<b>ДВ-3 · NEW рядом с иконкой.</b> Плашка стоит в строку справа от палочки и входит в кнопку. После первого нажатия тулбар возвращается к обычной ширине.",
@@ -43,7 +43,7 @@
     [/(\d)\s*[-–]\s*(\d)/g, "$1–$2"],                    // диапазоны 3-4 → 3–4
     [/(\S)[  ]+-{1,2}[  ]+/g, `$1${NB}— `],    // дефис между словами → тире
     [/"([^"]*)"/g, "«$1»"],                              // кавычки-ёлочки
-    [/(^|[\s(«])(в|во|и|к|ко|с|со|у|о|об|а|на|по|за|не|ни|из|от|до|но|же|я) (?=\S)/gi, `$1$2${NB}`], // неразрывный после коротких слов
+    [/(?<=^|[\s(«])(в|во|и|к|ко|с|со|у|о|об|а|на|по|за|не|ни|из|от|до|но|же|я) (?=\S)/gi, `$1${NB}`], // неразрывный после коротких слов
     [/(\d) (?=[а-яё])/gi, `$1${NB}`],                    // число + единица
   ];
   function typograf(text) {
@@ -74,12 +74,32 @@
   let toastT;
   function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("is-on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("is-on"), 2400); }
   function runTypograf(scope) {
-    const n = applyTo(targets(scope));
-    toast(n ? `Типограф: исправлено ${n} ${plural(n)}` : "Типограф: текст уже в порядке ✓");
+    endUndo("replaced");
+    const els = $$("[contenteditable]", scope);
+    const snap = els.map((el) => [el, el.innerHTML]);
+    const sel = getSelection();
+    let n = 0, withSel = false;
+    const host = sel && !sel.isCollapsed && sel.rangeCount ? sel.getRangeAt(0).commonAncestorContainer : null;
+    const hostEl = host ? (host.nodeType === 1 ? host : host.parentElement).closest("[contenteditable]") : null;
+    if (hostEl && scope.contains(hostEl)) {
+      // выделение внутри одного поля — правим только выделенный фрагмент
+      withSel = true;
+      const r = sel.getRangeAt(0), txt = r.toString(), [out, k] = typograf(txt);
+      if (k && out !== txt) {
+        r.deleteContents(); const tn = document.createTextNode(out); r.insertNode(tn); hostEl.normalize();
+        n = k; flash(hostEl);
+      }
+    } else {
+      if (sel && !sel.isCollapsed) withSel = targets(scope).length < els.length;
+      n = applyTo(withSel ? targets(scope) : els);
+    }
     store.set(key("used"));
     closeCoach();
     render();
+    if (n) showUndo(snap);
+    else showInfo(withSel ? "В выделенном тексте всё в порядке." : "В тексте всё в порядке.");
   }
+  function flash(el) { el.classList.remove("flash", "is-done"); void el.offsetWidth; el.classList.add("flash"); setTimeout(() => el.classList.add("is-done"), 60); setTimeout(() => el.classList.remove("flash", "is-done"), 1400); }
 
   // ---------- ДВ ----------
   const col = $("#dvCol"), tip = $("#tip"), typoBox = $("#typo"), typoBtn = $("#typoBtn");
@@ -186,6 +206,122 @@
     card.style.setProperty("--arrow", Math.max(12, pr.width - 16 - cx - 6) + "px");
   }
 
+  // ---------- отмена Типографа: тост или плашка, время на отмену задаётся в панели ----------
+  // Сценарии — страница Design (48:2445): тост 7 с, при наведении пауза, «Отменить» возвращает текст до последнего запуска.
+  const S = { t: 7, kind: "toast", bar: false };
+  const pt = $("#ptoast");
+  const fmt = (ms) => (ms / 1000).toFixed(1).replace(".", ",");
+  let undo = null, lastApplied = 0, infoT, raf;
+  const isMv = () => v.startsWith("mv");
+  function placeToast() {
+    if (isMv()) { if (pt.parentElement !== phone) phone.append(pt); pt.classList.add("is-mv"); pt.style.left = pt.style.top = ""; return; }
+    if (pt.parentElement !== body) body.append(pt);
+    pt.classList.remove("is-mv");
+    const er = $("#editor").getBoundingClientRect(), hr = $(".pk-header").getBoundingClientRect();
+    pt.style.top = Math.max($(".demo").offsetHeight + 12, hr.bottom + 12) + "px";
+    pt.style.left = Math.round(er.left + er.width / 2 - pt.offsetWidth / 2) + "px";
+  }
+  function showInfo(msg) {
+    clearTimeout(infoT);
+    pt.classList.remove("has-undo");
+    pt.querySelector(".ptoast__t").textContent = msg;
+    placeToast(); pt.classList.add("is-on");
+    infoT = setTimeout(() => { if (!undo) pt.classList.remove("is-on"); }, 3000);
+  }
+  function showUndo(snap) {
+    clearTimeout(infoT);
+    lastApplied = performance.now();
+    undo = { snap, at: lastApplied, total: S.t * 1000, left: S.t * 1000, kind: S.kind, paused: false, last: lastApplied };
+    if (S.kind === "toast") {
+      pt.querySelector(".ptoast__t").textContent = "Текст отформатирован.";
+      pt.classList.add("has-undo");
+      placeToast(); pt.classList.add("is-on");
+      undo.el = pt;
+    } else {
+      const a = $(".palert", isMv() ? $(".m-editor") : $("#editor"));
+      a.hidden = false; a.classList.remove("is-in"); void a.offsetWidth; a.classList.add("is-in");
+      undo.el = a;
+    }
+    log(`Типограф применён · отмена: ${S.kind === "toast" ? "тост" : "плашка"}, ${S.t ? S.t + " с" : "пока не закроют"}`);
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+  }
+  function tick(now) {
+    if (!undo) return;
+    if (!undo.paused) undo.left -= now - undo.last;
+    undo.last = now;
+    if (undo.total) {
+      undo.el.style.setProperty("--left", Math.max(0, undo.left / undo.total));
+      if (undo.left <= 0) return endUndo("time");
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function hideUndoUi(u) {
+    if (u.kind === "toast") pt.classList.remove("is-on", "has-undo"); else u.el.hidden = true;
+    u.el.style.removeProperty("--left");
+  }
+  function endUndo(reason) {
+    if (!undo) return;
+    const u = undo; undo = null; cancelAnimationFrame(raf);
+    hideUndoUi(u);
+    const after = fmt(performance.now() - u.at);
+    const text = { undo: `Нажали «Отменить» через ${after} с — текст вернулся`, close: `Закрыли крестиком через ${after} с`, time: `Время вышло (${after} с), отмена исчезла`, replaced: `Снова запустили Типограф через ${after} с` }[reason];
+    if (text) log(text);
+  }
+  $$(".js-undo").forEach((b) => b.addEventListener("click", () => {
+    if (!undo) return;
+    for (const [el, html] of undo.snap) el.innerHTML = html;
+    endUndo("undo"); syncText();
+  }));
+  $$(".js-undo-x").forEach((b) => b.addEventListener("click", () => endUndo("close")));
+  for (const el of [pt, ...$$(".palert")]) {
+    el.addEventListener("mouseenter", () => { if (undo) undo.paused = true; });
+    el.addEventListener("mouseleave", () => { if (undo) undo.paused = false; });
+  }
+  addEventListener("resize", () => { if (pt.classList.contains("is-on")) placeToast(); });
+  addEventListener("scroll", () => { if (pt.classList.contains("is-on") && !isMv()) placeToast(); }, { passive: true });
+
+  // ---------- замеры: что человек успел сделать, пока висела отмена ----------
+  function log(msg) {
+    const li = document.createElement("li");
+    li.textContent = `${isMv() ? "МВ" : "ДВ"} · ${msg}`;
+    $("#logList").append(li); $("#log").hidden = false;
+    $("#logList").scrollTop = 1e6;
+    document.documentElement.style.setProperty("--demo-h", $(".demo").offsetHeight + "px");
+    if (pt.classList.contains("is-on")) placeToast(); // панель выросла — тост не должен заезжать на шапку
+  }
+
+  // ---------- публикация ----------
+  $$(".js-pub").forEach((b) => b.addEventListener("click", () => {
+    const sc = scopeEl(), now = performance.now();
+    let note;
+    if (undo) {
+      note = `Опубликовали через ${fmt(now - undo.at)} с после Типографа — отмена ещё висела${undo.total ? ` (оставалось ${fmt(Math.max(0, undo.left))} с)` : ""}. После публикации отменить правки уже нельзя.`;
+      const u = undo; undo = null; cancelAnimationFrame(raf); hideUndoUi(u);
+    } else if (lastApplied) note = `Опубликовали через ${fmt(now - lastApplied)} с после Типографа, отмена к этому моменту уже закрылась.`;
+    else note = "Опубликовали без Типографа.";
+    log(note);
+    const pub = $(".published", isMv() ? phone : $("#dv"));
+    $(".published__title", pub).textContent = $(".editor__title", sc).textContent.trim() || "Без заголовка";
+    $(".published__text", pub).textContent = $(".editor__p", sc).innerText;
+    $(".published__note", pub).textContent = "Прототип: " + note;
+    pub.hidden = false; body.classList.add("is-published");
+    if (isMv()) pub.scrollTop = 0; else scrollTo(0, 0);
+  }));
+  function hidePublished() { $$(".published").forEach((p) => (p.hidden = true)); body.classList.remove("is-published"); }
+  $$(".js-back").forEach((b) => b.addEventListener("click", hidePublished));
+
+  // ---------- настройки отмены в панели ----------
+  function syncSettings() {
+    $$("#undoTime button").forEach((b) => b.classList.toggle("is-on", +b.dataset.t === S.t));
+    $$("#undoKind button").forEach((b) => b.classList.toggle("is-on", b.dataset.k === S.kind));
+    $("#undoBar button").classList.toggle("is-on", S.bar);
+    body.classList.toggle("show-bar", S.bar);
+  }
+  $$("#undoTime button").forEach((b) => b.addEventListener("click", () => { S.t = +b.dataset.t; endUndo("reset"); syncSettings(); }));
+  $$("#undoKind button").forEach((b) => b.addEventListener("click", () => { S.kind = b.dataset.k; endUndo("reset"); syncSettings(); }));
+  $("#undoBar button").addEventListener("click", () => { S.bar = !S.bar; syncSettings(); });
+  syncSettings();
+
   // ---------- рендер состояния ----------
   let snackT1, snackT2;
   function render() {
@@ -199,7 +335,7 @@
     body.classList.toggle("ann-closed", store.get(key("announce")));
   }
   // ---------- ввод текста: кнопки активны только когда в посте есть текст ----------
-  // Подсказка о Типографе появляется не сразу, а когда человек начал писать и сделал паузу в наборе.
+  // Подсказка о Типографе появляется с первым символом в поле текста (заголовок не считается).
   let hintReady = false, typeT;
   const scopeEl = () => $(v === "dvB" ? "#editor" : ".m-editor");
   const hasText = () => $$("[contenteditable]", scopeEl()).some((el) => el.textContent.trim());
@@ -208,8 +344,9 @@
     const t = hasText();
     body.classList.toggle("no-text", !t);
     clearTimeout(typeT);
-    // строка «Новое» — когда человек пишет сам текст поста (не заголовок) и делает паузу в наборе
-    if (hasBody() && !hintReady) typeT = setTimeout(() => { hintReady = true; render(); }, 900);
+    // строка «Новое» — с первым символом в тексте поста (не в заголовке)
+    body.classList.toggle("no-body", !hasBody());
+    if (hasBody() && !hintReady) { hintReady = true; render(); }
   }
   $$("[contenteditable]").forEach((el) => el.addEventListener("input", syncText));
   const SAMPLE_T = 'Как я "починил" старый велосипед';
@@ -235,6 +372,7 @@
     $("#rowTip").classList.remove("is-on");
     hideTip(); closeSheet(); clearTimeout(snackT1); clearTimeout(snackT2); snack.classList.remove("is-on");
     body.classList.remove("coach-open"); $("#mCoach").classList.remove("is-on"); phone.classList.remove("coach-on");
+    endUndo("reset"); clearTimeout(infoT); pt.classList.remove("is-on", "has-undo"); hidePublished(); lastApplied = 0;
     clearText(); syncText();
     render();
     const used = store.get(key("used"));
