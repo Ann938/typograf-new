@@ -111,7 +111,7 @@
       const isTypo = el === typoBtn;
       const isNew = body.classList.contains("is-new");
       tip.querySelector(".tip__c").innerHTML = isTypo
-        ? (v === "dvA" || v === "dvB" ? "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку." : v === "dv2" && isNew ? "<b>Типограф</b><i class='counter'>NEW</i><br>Исправит кавычки, тире и пробелы. Выделите текст и нажмите." : "Типограф: кавычки, тире и пробелы")
+        ? (v === "dvA" || v === "dvB" ? "Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы." : v === "dv2" && isNew ? "<b>Типограф</b><i class='counter'>NEW</i><br>Исправит кавычки, тире и пробелы." : "Типограф: кавычки, тире и пробелы")
         : el.dataset.tip;
       const o = offsetIn(el, col);
       tip.style.left = "0px"; tip.classList.add("is-on");

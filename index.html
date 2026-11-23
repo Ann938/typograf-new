@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.svg">
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
@@ -147,7 +147,7 @@
         <!-- ДВ-5: онбординг-подсказка -->
         <div class="coach" id="coach" role="dialog" aria-label="Новинка: Типограф">
           <div class="coach__head"><i class="counter">NEW</i><b>Типограф</b></div>
-          <p>Исправит кавычки «ёлочки», длинные тире и пробелы за один клик. Выделите текст и нажмите на палочку.</p>
+          <p>Исправит кавычки «ёлочки», длинные тире и пробелы за один клик.</p>
           <div class="coach__btns">
             <button class="btn btn--primary" id="coachTry" type="button">Попробовать</button>
             <button class="btn btn--secondary" id="coachOk" type="button">Понятно</button>
@@ -284,7 +284,7 @@
     <!-- шторка «⋯» (popup platform=mv) -->
     <div class="sheet" id="sheet" aria-hidden="true">
       <div class="sheet__wrap">
-        <div class="tip tip--sheet" id="sheetTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
+        <div class="tip tip--sheet" id="sheetTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
         <div class="sheet__box">
           <button class="nav-item nav-item--typo" id="mTypo" type="button"><img src="assets/m-wand.svg" alt=""><span class="nav-item__t">Типограф <i class="counter nav-item__inline">NEW</i></span><i class="counter nav-item__right">NEW</i><span class="nav-item__q" id="mTypoQ" role="button" aria-label="Что такое Типограф"><img src="assets/hint.svg" alt=""></span></button>
           <button class="nav-item" type="button"><img src="assets/m-inset.svg" alt=""><span class="nav-item__t">Врезка</span></button>
@@ -296,7 +296,7 @@
           <button class="nav-item" type="button"><img src="assets/m-align-left.svg" alt=""><span class="nav-item__t">По левому краю</span></button>
           <button class="nav-item" type="button"><img src="assets/m-align-center.svg" alt=""><span class="nav-item__t">По центру</span></button>
           <button class="nav-item" type="button"><img src="assets/m-align-right.svg" alt=""><span class="nav-item__t">По правому краю</span></button>
-          <div class="tip tip--row" id="rowTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы. Выделите текст и нажмите на кнопку.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
+          <div class="tip tip--row" id="rowTip"><div class="tip__c">Типограф делает оформление текста аккуратнее: исправляет кавычки, тире и пробелы.</div><img class="tip__arrow" src="assets/tip-arrow.svg" alt=""></div>
           <div class="sheet__btn"><button class="btn btn--secondary btn--full" id="sheetClose" type="button">Закрыть</button></div>
         </div>
       </div>
@@ -318,6 +318,6 @@
 <div class="ptoast" id="ptoast" role="status"><span class="ptoast__t"></span><button class="ptoast__undo js-undo" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3 2.5 6l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6h6.5a3.5 3.5 0 0 1 0 7H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Отменить</button><button class="ptoast__x js-undo-x" type="button" aria-label="Закрыть"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" stroke="#fff" stroke-opacity=".56" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>
 
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
